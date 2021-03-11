@@ -1,0 +1,50 @@
+.center{
+    text-align: center;
+}
+
+.left{
+    text-align: left;
+}
+
+.right{
+    text-align: right;
+}
+
+.buttonAccent{
+    font-family: Georgia;
+    background-color: #FFC600;
+    border: 0;
+    padding: 10px 20px;
+    border-radius: 7px;
+}
+
+
+/*-------------FORMS-------------*/
+
+form{
+    /*background-color: aqua;*/
+
+    padding: 60px 0;
+}
+
+form .row{
+    margin-top: 20px;
+}
+
+form input[type="text"]{
+    font-family: Georgia;
+    font-size: 25px;
+
+    background-color: transparent;
+    border: 0;
+    border-bottom: solid 2px;
+    border-color: white;
+
+    padding-left: 10px;
+
+    color: white;
+}
+
+.signin{
+    border-right: solid 2px;
+}

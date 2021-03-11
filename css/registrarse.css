@@ -1,0 +1,12 @@
+form{
+    margin-top: 15vh;
+}
+
+#title-login{
+    font-family: Georgia;
+    font-size: 50px;
+}
+
+form.login{
+    margin-top: 9vh;
+}

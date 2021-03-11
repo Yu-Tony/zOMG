@@ -1,0 +1,39 @@
+#logo{
+    background-image: url(../zOMG.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position-x: center;
+    height: 150px;
+    
+}
+
+.navbar{
+    position: relative;
+    padding: 0;
+}
+
+#navList{
+    position: relative;
+    font-family: 'Times New Roman';
+    font-size: 20px;
+    list-style: none;
+    left: 100%;
+    transform: translateX(-100%);
+    padding: 0;
+    margin: 0;
+    
+}
+
+#navList .navElem{
+    display: inline;
+    margin: 0;
+    margin-left: 20px;
+}
+
+#navList .navElem a{
+    background-color: #FFC600;
+    text-decoration: none;
+    color: black;
+    padding: 7px 20px;
+    border-radius: 7px;
+}
