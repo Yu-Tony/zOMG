@@ -12,13 +12,42 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </head>
 
+<script>
+
+ $(document).ready(function () {
+
+
+
+$(function () {
+    $("#IncludeOp").load("MenuOpcion.html");
+    $("#IncludeOp").hide();
+
+});
+
+
+});
+
+
+$('.Op').on("click",function(){
+  
+    $("#MP").hide();
+    $("#IncludeOp").show();
+   
+  //post code
+});
+
+  </script>
+
 <body style="background-color: #000000">
 
-  <div class="container" >
+  <div class="container" id="MP">
 
-   <div class="row"  style="margin-top: 10%;">
+
+   <div class="row" >
        <div class="Todo">
+           
            <div class="container">
+               
                <div class="row" style="margin-top: 35%;">
                    <div class="col-4">
                     <a href="PantallaJuego.html">
@@ -31,7 +60,7 @@
                         </a>
                      </div>
                      <div class="col-4">
-                        <a href="MenuOpcion.html">
+                        <a ref="javascript:void(0)" class="Op">
                             <div  ><img src="Imagenes/OpcionesNO.png" onmouseover="this.src='Imagenes/OpcionesSI.png';" onmouseout="this.src='Imagenes/OpcionesNo.png';" alt="" class="imagenes"/></div>
                         </a>
                       
@@ -43,6 +72,8 @@
 
     
   </div>
+
+  <div id="IncludeOp" ></div>
 
 </body>
 	<style>
