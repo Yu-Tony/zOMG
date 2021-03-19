@@ -31,23 +31,21 @@
     ></script>
 
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script src="/Assets/musica.js"></script>
+<script src="/Assets/musica.js"></script>
 
     <script>
       $(document).ready(function () {
 
-        var audio = document.getElementById("audio");
-
-
-        $(function () {
+       $(function () {
           $("#includedContent").load("MenuPrincipal.html");
-            audio.play();
         });
 
-    
+        play();
+
       });
 
-     
+      
+
 
     </script>
   </head>
@@ -63,6 +61,7 @@
       <div id="includedContent"></div>
      
     </div>
+
 
 
     <audio id="audio" src="/Assets/Forgotten.mp3"></audio>

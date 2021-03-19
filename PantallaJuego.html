@@ -13,14 +13,22 @@
 
 <script>
 
+$(document).ready(function () {
+    $("#IncludePause").load("Pause.html");
+    $("#IncludePause").hide();
+});
+
 $(document).keyup(function(e) {
      if (e.key === "z") { 
-        window.location.href = "Pause.html";
+        ShowPause();
     }
 
-    if (e.key === "x") { 
-        window.location.href = "MenuOpcion.html";
-    }
+    /*if (e.key === "x") { 
+        ShowPrincipal();
+    }*/
+
+  
+
 });
 
    
@@ -31,13 +39,8 @@ $(document).keyup(function(e) {
 
 <body style="background-color: #000000">
 
-  <div class="container" >
+  <div class="container" id="PJ" >
 
-    <div class="row" style=" margin-top: 1%;">
-        <div class="col-12 text-center">
-            <img src="Imagenes/zOMG.png" alt="" class="btnRegresar"/>
-        </div>
-    </div>
 
    <div class="row"  >
        <div class="Todo">
@@ -51,6 +54,8 @@ $(document).keyup(function(e) {
 
     
   </div>
+
+  <div id="IncludePause" ></div>
 
 </body>
 	<style>

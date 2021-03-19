@@ -4,39 +4,50 @@
 <head>
 <meta charset="UTF-8">
 <title>Pantalla Menu</title>
-<link rel="stylesheet" href="css/zomg.css">
+<link href="css/zomg.css" rel="stylesheet" type="text/css">
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</head>
 
 <script>
+     $(document).ready(function () {
 
- $(document).ready(function () {
+        $("#IncludeMode").load("MenuMode.html");
+        $("#IncludeMode").hide();
 
+        $("#IncludeOp").load("MenuOpcion.html");
+        $("#IncludeOp").hide();
 
+        $("#IncludeLeader").load("MenuLeaderbord.html");
+        $("#IncludeLeader").hide();
+        
+        $("#IncludeControl").load("Controles.html");
+        $("#IncludeControl").hide();
 
-$(function () {
-    $("#IncludeOp").load("MenuOpcion.html");
-    $("#IncludeOp").hide();
+        $('.ComenzarJuego').on("click",function(){
+           ShowMenuMode();
+        });
+
+        $('.Configuracion').on("click",function(){
+            ShowOptions();
+        });
+
+        $('.Leaderboard').on("click",function(){
+            ShowLeaderboard();
+        });
+
+        $('.Controles').on("click",function(){
+            ShowControls();
+     
+        });
 
 });
 
+</script>
 
-});
-
-
-$('.Op').on("click",function(){
-  
-    $("#MP").hide();
-    $("#IncludeOp").show();
-   
-  //post code
-});
-
-  </script>
+</head>
 
 <body style="background-color: #000000">
 
@@ -45,27 +56,45 @@ $('.Op').on("click",function(){
 
    <div class="row" >
        <div class="Todo">
-           
            <div class="container">
-               
                <div class="row" style="margin-top: 35%;">
-                   <div class="col-4">
-                    <a href="PantallaJuego.html">
-                        <div  ><img src="Imagenes/SoloNO.png" alt="" id="img1" onmouseover="this.src='Imagenes/SoloSI.png';" onmouseout="this.src='Imagenes/SoloNO.png';" class="imagenes"/></div>                    
-                    </a>
-                     </div>
-                     <div class="col-4">
-                        <a href="PantallaJuego.html">
-                            <div  ><img src="Imagenes/MultiNO.png" onmouseover="this.src='Imagenes/MultiSI.png';" onmouseout="this.src='Imagenes/MultiNO.png';" alt="" class="imagenes"/></div>
-                        </a>
-                     </div>
-                     <div class="col-4">
-                        <a ref="javascript:void(0)" class="Op">
-                            <div  ><img src="Imagenes/OpcionesNO.png" onmouseover="this.src='Imagenes/OpcionesSI.png';" onmouseout="this.src='Imagenes/OpcionesNo.png';" alt="" class="imagenes"/></div>
-                        </a>
-                      
-                     </div>
+                   <div class="col-12 text-center">
+
+                   </div>
                </div>
+
+            <div class="row" style=" margin-top: 2%;">
+				<div class="col-12 text-center">
+                    <a ref="javascript:void(0)" class="ComenzarJuego">
+                        <img src="Imagenes/salir.png" alt="" id="img1" class="btnRegresar"/>
+                    </a>	
+				</div>
+			</div>
+
+            <div class="row" style=" margin-top: 1%;">
+				<div class="col-12 text-center">
+                    <a ref="javascript:void(0)" class="Configuracion">
+                        <img src="Imagenes/salir.png" alt="" id="img2" class="btnRegresar"/>
+                    </a>
+				</div>
+			</div>
+
+            <div class="row" style=" margin-top: 1%;">
+				<div class="col-12 text-center">
+                    <a ref="javascript:void(0)" class="Leaderboard">
+                        <img src="Imagenes/salir.png" alt="" id="img2" class="btnRegresar"/>
+                    </a>
+				</div>
+			</div>
+
+            <div class="row" style=" margin-top: 1%;">
+				<div class="col-12 text-center">
+                    <a ref="javascript:void(0)" class="Controles">
+                        <img src="Imagenes/salir.png" alt="" id="img2" class="btnRegresar"/>
+                    </a>
+				</div>
+			</div>
+
            </div>
        </div>
    </div>
@@ -73,7 +102,10 @@ $('.Op').on("click",function(){
     
   </div>
 
+  <div id="IncludeMode" ></div>
   <div id="IncludeOp" ></div>
+  <div id="IncludeLeader" ></div>
+  <div id="IncludeControl" ></div>
 
 </body>
 	<style>
@@ -82,10 +114,15 @@ $('.Op').on("click",function(){
 
 
  .Todo {
-      
 
-    background-image: url(Imagenes/Fondozomg.png);
+    background-image: url("Imagenes/Fondo.png");
 }
+
+    .Texto {
+    color: white;
+    font-family: fantasy;
+    font-size: 3vw;;
+    }
 
     </style>
 </html>
