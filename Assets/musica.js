@@ -30,9 +30,9 @@ function ShowOptions()
  
     $("#MP").hide();
     $("#IncludeOp").show(); 
-    $("#IncludePause").hide(); 
 
 }
+
 
 function ShowLeaderboard()
 {
@@ -47,6 +47,8 @@ function ShowControls()
  
     $("#MP").hide();
     $("#IncludeControl").show(); 
+    $("#controles").show(); 
+    
 
 }
 
@@ -59,6 +61,9 @@ function ShowSolo()
     $("#IncludeSolo").show(); 
     $("#PJ").show();
     $("#IncludePause").hide(); 
+    var audio = $('#audio')[0];
+    audio.pause();
+    
 
 }
 
@@ -67,30 +72,44 @@ function ShowMulti()
  
     $("#MM").hide();
     $("#IncludeMulti").show(); 
+    
 
 }
 
 function ShowPause()
 {
- 
+    
+    $("#IncludeConfiguracionJuego").hide();
     $("#PJ").hide();
     $("#IncludePause").show(); 
+    $("#MPause").show(); 
+    
 
 }
 
 function ShowPrincipal()
 {
+    var audio = $('#audio')[0];
+    audio.play();
   
     $("#IncludeOp").hide();
     $("#IncludeSolo").hide();
     $("#IncludeMulti").hide();
     $("#IncludeLeader").hide();
+    $("#controles").hide();
    
     $("#MP").show();
    
 }
 
+function ShowConfigGame()
+{
+ 
+    $("#MPause").hide();
+    $("#IncludeConfiguracionJuego").show();
+    
 
+}
 
 /*$(document).ready(function () {
 

@@ -15,6 +15,9 @@
     $(document).ready(function () {
 
 
+        $("#IncludeConfiguracionJuego").load("MenuOpcionInGame.html");
+    $("#IncludeConfiguracionJuego").hide();
+
         $('.ContinueGame').on("click",function(){
             ShowSolo();
         });
@@ -24,7 +27,7 @@
         });
 
         $('.Configuracion').on("click",function(){
-            ShowOptions();
+            ShowConfigGame();
         });
 
 
@@ -36,11 +39,11 @@
 
 <body style="background-color: #000000">
 
-  <div class="container">
+  <div class="container" id="MPause">
 
 
    <div class="row" >
-       <div class="Todo">
+       <div class="Todo" style="background-image: url('Imagenes/Pause.png');">
            <div class="container">
                <div class="row" style="margin-top: 35%;">
                    <div class="col-12 text-center">
@@ -51,7 +54,7 @@
             <div class="row" style=" margin-top: 2%;">
 				<div class="col-12 text-center">
                     <a ref="javascript:void(0)" class="ContinueGame">
-                        <img src="Imagenes/continuar.png" alt="" id="img1" class="btnRegresar"/>
+                        <img src="Imagenes/BTNcontinuar.png" alt="" id="img1" class="btnRegresar"/>
                     </a>	
 				</div>
 			</div>
@@ -59,7 +62,7 @@
             <div class="row" style=" margin-top: 1%;">
 				<div class="col-12 text-center">
                     <a ref="javascript:void(0)" class="Configuracion">
-                        <img src="Imagenes/salir.png" alt="" id="img2" class="btnRegresar"/>
+                        <img src="Imagenes/BTNconfiguracion.png" alt="" id="img2" class="btnRegresar"/>
                     </a>
 				</div>
 			</div>
@@ -67,7 +70,7 @@
             <div class="row" style=" margin-top: 1%;">
 				<div class="col-12 text-center">
                     <a ref="javascript:void(0)" class="ExitGame">
-                        <img src="Imagenes/salir.png" alt="" id="img2" class="btnRegresar"/>
+                        <img src="Imagenes/BTNsalir.png" alt="" id="img2" class="btnRegresar"/>
                     </a>
 				</div>
 			</div>
@@ -78,6 +81,8 @@
 
     
   </div>
+
+  <div id="IncludeConfiguracionJuego" ></div>
 
 </body>
 	<style>
