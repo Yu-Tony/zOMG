@@ -1,5 +1,6 @@
 import * as THREE from '../js/libs/threeJS/three.module.js';
 import {Player} from '../models/player.js';
+import {Zombie} from '../models/zombie.js';
 import { OrbitControls } from '../js/libs/threeJS/OrbitControls.js';
 import {FBXLoader} from '../js/libs/threeJS/FBXLoader.js';
 
@@ -12,6 +13,7 @@ var mouse;
 var grid;
 var player01;
 var player02;
+var zombie;
 
 var vecPlayerMouse;
 
@@ -101,7 +103,10 @@ $(document).ready( function () {
     //load('../Assets/Player/player.fbx', player02, 0, null);
 
     
-
+    zombie = new Zombie();
+    load('../Assets/Zombie/zombie.fbx', zombie, 3, () =>{
+        zombie.object.position.x = 5;
+    });
     
     render();
 } )
@@ -130,6 +135,8 @@ function render(){
         player02.object.translateX(player02.side * delta);
         player02.object.rotation.y += player02.yaw * delta;
     }
+
+    if(zombie.mixer) zombie.mixer.update(delta);
 
     renderer.render(scene, camera);
 }
