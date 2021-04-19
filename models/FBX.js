@@ -6,11 +6,12 @@ class FBX{
     {
         this.object;
         this.mixer;
+        this.isLoaded = false;
     }
 
     /**
      * Reproduce una animacion a traves del mixer.
-     * @param {Int16Array} x Indice de la animacion a reproducir.
+     * @param {Number} x Indice de la animacion a reproducir.
      */
     playAnimation(x){
         var action = this.mixer.clipAction(this.object.animations[ x ]);
