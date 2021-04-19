@@ -88,17 +88,17 @@ $(document).ready( function () {
 
     player01 = new Player();
     player02 = new Player();
-    load('../Assets/Player/player.fbx', player01, null, (object)=> {
+    /*load('../Assets/Player/player.fbx', player01, null, (object)=> {
 
         var clone = object.clone();
         player02.object = clone;
         //getMixer(player02);
         player02.isLoaded = true;
         scene.add(player02.object);
-    });
+    });*/
 
-    /*load('../Assets/Player/player.fbx', player01, null, null);
-    load('../Assets/Player/player.fbx', player02, null, null);*/
+    load('../Assets/Player/player.fbx', player01, 1, null);
+    //load('../Assets/Player/player.fbx', player02, 0, null);
 
     
 
@@ -113,7 +113,7 @@ function render(){
     //player01.object.rotation.y += THREE.Math.degToRad(1);
     const delta = clock.getDelta();
 
-    //if(player01.mixer) player01.mixer.update( delta );
+    if(player01.mixer) player01.mixer.update( delta );
 
     if(player01.isLoaded)
     {
