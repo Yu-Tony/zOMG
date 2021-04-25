@@ -7,6 +7,7 @@ class FBX{
         this.object;
         this.mixer;
         this.isLoaded = false;
+        this.BBox;
     }
 
     /**
@@ -16,6 +17,16 @@ class FBX{
     playAnimation(x){
         var action = this.mixer.clipAction(this.object.animations[ x ]);
         action.play();
+    }
+
+    updateBBox(velz, velx){
+        var v = new THREE.Vector3(0,0,0);
+        var vel = new THREE.Vector3(velx,0,velz);
+
+        this.object.getWorldDirection(v);
+        v.multiply(vel);
+
+        this.BBox.translate(vel);
     }
 }
 

@@ -1,8 +1,10 @@
 import * as THREE from '../js/libs/threeJS/three.module.js';
 import {Player} from '../models/player.js';
 import {Zombie} from '../models/zombie.js';
+import {Barrier} from '../models/barrier.js';
 import { OrbitControls } from '../js/libs/threeJS/OrbitControls.js';
 import {FBXLoader} from '../js/libs/threeJS/FBXLoader.js';
+import { compressSync } from './libs/threeJS/fflate.module.min.js';
 
 var scene, renderer, camera;
 var loader;
@@ -14,6 +16,7 @@ var grid;
 var player01;
 var player02;
 var zombie;
+var barrier;
 
 var vecPlayerMouse;
 
@@ -36,8 +39,8 @@ $(document).ready( function () {
     );
     camera.position.x = 0;
     camera.position.y = 9;
-    camera.position.z = 7;
-    camera.lookAt(new THREE.Vector3(0,-5,-5));
+    camera.position.z = -7;
+    camera.lookAt(new THREE.Vector3(0,-5,5));
 
     //Inicializamos la escena
     scene = new THREE.Scene();
@@ -88,8 +91,13 @@ $(document).ready( function () {
 
     loader = new FBXLoader()
 
+    zombie = new Zombie();
+    load('../Assets/Zombie/zombie.fbx', zombie, 0, () =>{
+        zombie.object.position.z = 5;
+    });
+
     player01 = new Player();
-    player02 = new Player();
+    //player02 = new Player();
     /*load('../Assets/Player/player.fbx', player01, null, (object)=> {
 
         var clone = object.clone();
@@ -99,15 +107,15 @@ $(document).ready( function () {
         scene.add(player02.object);
     });*/
 
-    load('../Assets/Player/player.fbx', player01, 1, null);
+    load('../Assets/Player/player.fbx', player01, null, null);
     //load('../Assets/Player/player.fbx', player02, 0, null);
 
-    
-    zombie = new Zombie();
-    load('../Assets/Zombie/zombie.fbx', zombie, 3, () =>{
-        zombie.object.position.x = 5;
-    });
-    
+    barrier = new Barrier()
+    load('../Assets/Barrier/barrier.fbx',barrier,null, ()=>{
+        barrier.object.position.z = -5;
+        barrier.updateBBox(-5,0);
+    })
+
     render();
 } )
 
@@ -119,24 +127,47 @@ function render(){
     const delta = clock.getDelta();
 
     if(player01.mixer) player01.mixer.update( delta );
-
     if(player01.isLoaded)
     {
-        player01.controller01(keys);
+        player01.controller01(keys, zombie.object);
+        
+        
+
         player01.object.translateZ(player01.forward * delta)
         player01.object.translateX(player01.side * delta);
         player01.object.rotation.y += player01.yaw * delta;
+        player01.updateBBox(player01.forward * delta, player01.side * delta);
+        //player01.shot(zombie.object);
+        /*var vec = new THREE.Vector3(0,0,0);
+        player01.object.getWorldDirection(vec);
+        console.log(vec);*/
+
+        if ( player01.isLoaded && barrier.isLoaded ){
+            if ( detectCollision(player01, barrier) ){
+                console.log("colision")
+                player01.object.translateZ((-player01.forward) * delta)
+                player01.object.translateX((-player01.side) * delta);
+                player01.updateBBox((-player01.forward) * delta, (-player01.side) * delta);
+            }
+        }
+
+        
     }
 
-    if(player02.isLoaded)
+
+
+    /*if(player02.isLoaded)
     {
         player02.controller02(keys);
         player02.object.translateZ(player02.forward * delta);
         player02.object.translateX(player02.side * delta);
         player02.object.rotation.y += player02.yaw * delta;
-    }
+    }*/
 
-    if(zombie.mixer) zombie.mixer.update(delta);
+    /*if(zombie.mixer) zombie.mixer.update(delta);
+    if(zombie.isLoaded){
+        zombie.follow(player01, delta);
+    }*/
 
     renderer.render(scene, camera);
 }
@@ -160,16 +191,16 @@ function onDocumentMouseMove(event) {
 
     raycaster.setFromCamera(mouse.clone(), camera);
 
-    var object = raycaster.intersectObject(grid)
+    var object = raycaster.intersectObject(zombie.object, true);
 
     if(object.length > 0){
-        //console.log(object[0].point);
+        console.log(object[0].point);
 
-        vecPlayerMouse = new THREE.Vector3(
+        /*vecPlayerMouse = new THREE.Vector3(
             (object[0].point.x - player01.object.position.x),
             (object[0].point.y - player01.object.position.y),
             (object[0].point.z - player01.object.position.z)
-            )
+            )*/
     }
 }
 
@@ -193,6 +224,11 @@ function load(path, buffer, anim, initializeObject) {
         buffer.object = object;
         //buffer.object.vectorFront = new THREE.Vector3(0,0, /*buffer.object.position.z + */1);
         buffer.isLoaded = true;
+
+        buffer.BBox = new THREE.Box3();
+        buffer.BBox.expandByObject(buffer.object);
+        //buffer.BBox.applyMatrix4(buffer.object.matrixWorld);
+
         scene.add(buffer.object);
 
         if(Number.isInteger(anim)) buffer.playAnimation(anim);
@@ -204,4 +240,22 @@ function load(path, buffer, anim, initializeObject) {
 
 function getMixer(object){
     object.mixer = new THREE.AnimationMixer( object.object );
+}
+
+/**
+ * 
+ * @param {*} object1 
+ * @param {*} object2 
+ */
+function detectCollision(object1, object2){
+    
+    //object1.BBox.applyMatrix4(object1.object.matrixWorld);
+    //object1.BBox.translate(object1.object.position);
+
+    //object2.BBox.applyMatrix4(object2.object.matrixWorld);
+    //object2.BBox.translate(object2.object.position);
+
+  
+    return object1.BBox.intersectsBox(object2.BBox);
+
 }
