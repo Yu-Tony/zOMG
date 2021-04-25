@@ -1,4 +1,5 @@
 import {FBX} from '../models/FBX.js'
+import * as THREE from '../js/libs/threeJS/three.module.js';
 
 class Player extends FBX{
     constructor()
@@ -7,9 +8,10 @@ class Player extends FBX{
         this.forward = 0;
         this.yaw = 0;
         this.side = 0;
+        this.raycast = new THREE.Raycaster();
     }
 
-    controller01(keys){
+    controller01(keys, tarjets){
         this.initializeValues();
 
         if (keys["V"]) {
@@ -19,16 +21,23 @@ class Player extends FBX{
             this.yaw = 5;
 		}
 		if (keys["W"]) {
-			this.forward = -5;
-		} else if (keys["S"]) {
 			this.forward = 5;
+            //this.updateBBox(this.forward * delta, this.side * delta);
+		} else if (keys["S"]) {
+			this.forward = -5;
+            //this.updateBBox(this.forward * delta, this.side * delta);
 		}
         if (keys["A"]) {
-			this.side = -5;
-		} else if (keys["D"]) {
 			this.side = 5;
+            //this.updateBBox(this.forward * delta, this.side * delta);
+		} else if (keys["D"]) {
+			this.side = -5;
+            //this.updateBBox(this.forward * delta, this.side * delta);
 		}
-
+        if(keys["X"]){
+            this.shot(tarjets);
+        }
+        //this.shot(tarjets);
         //C For Shot
 
     }
@@ -61,6 +70,29 @@ class Player extends FBX{
         this.forward = 0
         this.yaw = 0;
         this.side = 0;
+    }
+
+    shot(tarjets){
+        var dir = new THREE.Vector3(0,0,0);
+        this.object.getWorldDirection(dir);
+
+        var ofsetPos = new THREE.Vector3(
+            this.object.position.x,
+            this.object.position.y + 1,
+            this.object.position.z 
+            )
+
+        this.raycast.set(
+            ofsetPos,
+            dir
+            );
+
+        //console.log(this.object.dir);
+        var colision = this.raycast.intersectObject(tarjets, true);
+
+        if(colision.length > 0){
+            console.log("zombie shotted");
+        }
     }
 
 }
