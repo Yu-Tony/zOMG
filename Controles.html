@@ -1,23 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-    <link href="css/zomg.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
 <script>
     $(document).ready(function () {
 
 
-        $('.Regresar').on("click",function(){
+        $('.Regresar').on("click", function () {
             ShowPrincipal();
         });
 
@@ -26,70 +11,93 @@
 
 </script>
 
-</head>
-<body>
-    
-    <div class="container" id="controles">
+<div class="container" id="controles">
 
 
-   <div class="row" >
-       <div class="Todo">
-           <div class="container" style="margin-left: 20%;">
+    <div class="row">
+        <div class="Todo">
+            <div class="container" style="margin-left: 5%;">
 
-            <div class="row" style="margin-top: 10%;">
-                   <div class="col-4">
-                    <img src="Imagenes/ControlLeft.png" alt="" style="height: 70%;"/>
-                    <img src="Imagenes/ControlRight.png" alt="" style="height: 70%;"/>
-                   </div>
-                   <div class="col-8 Texto">
-                   Moverse
+                <div class="row" style="margin-top: 5%;">
+                    <div class="col-2" style="color: whitesmoke; font-size:200%;  font-weight: bold;">
+                        Controles
+                     </div>
+                    <div class="col-4" style="color: whitesmoke; font-size:200%;">
+                       Jugador 01
+                    </div>
+                    <div class="col-4" style="color: whitesmoke; font-size:200%;">
+                      Jugador 02
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 8%;">
+                    <div class="col-2" style="color: whitesmoke; font-size:150%;  ">
+                        Movimiento
+                     </div>
+                    <div class="col-4">
+                        <img src="Imagenes/Controls/W.png" alt="" style="max-width: 20%;"/>
+                        <img src="Imagenes/Controls/A.png" alt="" style="max-width: 20%;"/>
+                        <img src="Imagenes/Controls/S.png" alt="" style="max-width: 20%;"/>
+                        <img src="Imagenes/Controls/D.png" alt="" style="max-width: 20%;"/>
+                    </div>
+                    <div class="col-4">
+                        <img src="Imagenes/Controls/I.png" alt="" style="max-width: 20%;"/>
+                        <img src="Imagenes/Controls/J.png" alt="" style="max-width: 20%;"/>
+                        <img src="Imagenes/Controls/K.png" alt="" style="max-width: 20%;"/>
+                        <img src="Imagenes/Controls/L.png" alt="" style="max-width: 20%;"/>
+                    </div>
+                </div>
+
+                <div class="row" style="margin-top: 2%;">
+                    <div class="col-2" style="color: whitesmoke; font-size:150%;  ">
+                        Disparar
+                     </div>
+                    <div class="col-4">
+                        <img src="Imagenes/Controls/X.png" alt="" style="max-width: 20%;"/>
+                       
+                    </div>
+                    <div class="col-4">
+                        <img src="Imagenes/Controls/M.png" alt="" style="max-width: 20%;"/>
+                     
+                    </div>
+                </div>
+
+
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-2" style="color: whitesmoke; font-size:150%;  ">
+                        Pausa
+                     </div>
+                    <div class="col-4">
+                        <img src="Imagenes/Controls/enter.png" alt="" style="max-width: 20%;" />
+                    </div>
+                    <div class="col-4">
+                        <img src="Imagenes/Controls/enter.png" alt="" style="max-width: 20%;" />
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row" style=" margin-top: 10%;">
+                <div class="col-12 text-center">
+                    <a ref="javascript:void(0)" class="Regresar">
+                        <img src="Imagenes/BTNregresar.png" alt="" id="imgBTN" class="btnRegresar" />
+                    </a>
                 </div>
             </div>
 
-            <div class="row" style="margin-top: 1%;">
-                <div class="col-4">
-                    <img src="Imagenes/ControlSpacebar.png" alt="" style="height: 70%;"/>
-                </div>
-                <div class="col-8 Texto">
-                   Disparar
-                </div>
-            </div>
-
-            <div class="row" style="margin-top: 1%;">
-                <div class="col-4">
-                    <img src="Imagenes/ControlZ.png" alt="" style="height: 70%;"/>
-                </div>
-                <div class="col-8 Texto">
-                   Opciones
-                </div>
-            </div>
-
-           </div>
-
-           <div class="row" style=" margin-top: 1%;">
-            <div class="col-12 text-center">
-                <a ref="javascript:void(0)" class="Regresar">
-                    <img src="Imagenes/BTNregresar.png" alt="" id="imgBTN" class="btnRegresar"/>
-                </a>
-            </div>
         </div>
 
-       </div>
 
-       
 
-   </div>
+    </div>
 
-    
-  </div>
 
-</body>
+</div>
 
 <style>
     .Texto {
-    color: white;
-    font-family: fantasy;
-    font-size: 1vw;;
-}
+        color: white;
+        font-family: fantasy;
+        font-size: 10%;
+    }
 </style>
-</html>

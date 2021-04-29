@@ -9,40 +9,66 @@ class Player extends FBX{
         this.yaw = 0;
         this.side = 0;
         this.raycast = new THREE.Raycaster();
+        this.anim = 3;
     }
 
     controller01(keys, tarjets){
         this.initializeValues();
-
+        
         if (keys["V"]) {
             this.yaw = -5;
-
 		} else if (keys["C"]) {
             this.yaw = 5;
 		}
 		if (keys["W"]) {
 			this.forward = 5;
+            this.anim = 1;
             //this.updateBBox(this.forward * delta, this.side * delta);
 		} else if (keys["S"]) {
 			this.forward = -5;
+            this.anim = 1;
             //this.updateBBox(this.forward * delta, this.side * delta);
 		}
         if (keys["A"]) {
 			this.side = 5;
+            this.anim = 1;
             //this.updateBBox(this.forward * delta, this.side * delta);
 		} else if (keys["D"]) {
 			this.side = -5;
+            this.anim = 1;
             //this.updateBBox(this.forward * delta, this.side * delta);
 		}
+
+
+
         if(keys["X"]){
             this.shot(tarjets);
+            this.anim = 0;
         }
+
+        if (keys["A"]&& keys["X"])
+        {
+            this.anim = 2;
+        }
+        if (keys["W"]&& keys["X"])
+        {
+            this.anim = 2;
+        }
+        if (keys["S"]&& keys["X"])
+        {
+            this.anim = 2;
+        }
+        if (keys["D"]&& keys["X"])
+        {
+            this.anim = 2;
+        }
+
         //this.shot(tarjets);
         //C For Shot
 
     }
 
-    controller02(keys){
+    controller02(keys, tarjets){
         this.initializeValues();
 
         if (keys["'"]) {
@@ -53,14 +79,41 @@ class Player extends FBX{
 		}
 		if (keys["I"]) {
 			this.forward = -5;
+            this.anim = 1;
 		} else if (keys["K"]) {
 			this.forward = 5;
+            this.anim = 1;
 		}
         if (keys["J"]) {
 			this.side = -5;
+            this.anim = 1;
 		} else if (keys["L"]) {
 			this.side = 5;
+            this.anim = 1;
 		}
+
+
+        if(keys["M"]){
+            this.shot(tarjets);
+            this.anim = 0;
+        }
+
+        if (keys["J"]&& keys["M"])
+        {
+            this.anim = 2;
+        }
+        if (keys["I"]&& keys["M"])
+        {
+            this.anim = 2;
+        }
+        if (keys["K"]&& keys["M"])
+        {
+            this.anim = 2;
+        }
+        if (keys["L"]&& keys["M"])
+        {
+            this.anim = 2;
+        }
 
         //\u0011 From Shot
 
@@ -70,6 +123,7 @@ class Player extends FBX{
         this.forward = 0
         this.yaw = 0;
         this.side = 0;
+        this.anim = 3;
     }
 
     shot(tarjets){
@@ -94,6 +148,8 @@ class Player extends FBX{
             console.log("zombie shotted");
         }
     }
+
+
 
 }
 

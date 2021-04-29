@@ -1,99 +1,93 @@
-
-<!doctype html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Pantalla Modo</title>
-<link rel="stylesheet" href="css/zomg.css">
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</head>
-
 <script>
 
- $(document).ready(function () {
+    $(document).ready(function () {
 
-   /* $("#IncludeOp").load("MenuOpcion.html");
-    $("#IncludeOp").hide();*/
-    $("#IncludeSolo").load("PantallaJuego.html");
-    $("#IncludeSolo").hide();
+        /* $("#IncludeOp").load("MenuOpcion.html");
+         $("#IncludeOp").hide();*/
+        $("#IncludeSolo").load("PantallaJuego.html");
+        $("#IncludeSolo").hide();
 
-   /* $('.Op').on("click",function(){
-        ShowOptions();
-    });*/
+        /* $('.Op').on("click",function(){
+             ShowOptions();
+         });*/
 
-    $('.Solo').on("click",function(){
-        ShowSolo();
+        $('.Solo').on("click", function () {
+            ShowSolo();
+        });
+
+        $('.Multi').on("click", function () {
+            ShowSolo();
+            // ShowMulti();
+        });
+
     });
 
-    $('.Multi').on("click",function(){
-        ShowSolo();
-       // ShowMulti();
-    });
 
-});
-
-
-  </script>
+</script>
 
 <body style="background-color: #000000">
 
-  <div class="container" id="MM">
+    <div class="container" id="MM">
 
 
-   <div class="row" >
-       <div class="Todo">
-           
-           <div class="container">
-               
-               <div class="row" style="margin-top: 35%;">
-                <div class="col-2">
-                        
-                      
-                </div>
-                   <div class="col-4">
-                    <a ref="javascript:void(0)" class="Solo">
-                        <div  ><img src="Imagenes/SoloNO.png" alt="" id="img1" onmouseover="this.src='Imagenes/SoloSI.png';" onmouseout="this.src='Imagenes/SoloNO.png';" class="imagenes"/></div>                    
-                    </a>
-                     </div>
-                     
-                    
-                     <div class="col-4">
-                        <a ref="javascript:void(0)" class="Multi">
-                            <div  ><img src="Imagenes/MultiNO.png" onmouseover="this.src='Imagenes/MultiSI.png';" onmouseout="this.src='Imagenes/MultiNO.png';" alt="" class="imagenes"/></div>
-                        </a>
-                     </div>
+        <div class="row">
+            <div class="Todo">
 
-                     <div class="col-2">
-                        
-                      
+                <div class="container">
+
+                    <div class="row" style="margin-top: 25%;">
+                        <div class="col-2">
+
+
+                        </div>
+                        <div class="col-4">
+                            <a ref="javascript:void(0)" class="Solo" style="cursor: pointer;">
+                                <div><img src="Imagenes/SoloNO.png" alt="" id="img1"
+                                        onmouseover="this.src='Imagenes/SoloSI.png';"
+                                        onmouseout="this.src='Imagenes/SoloNO.png';" class="imagenes" /></div>
+                            </a>
+                        </div>
+
+
+                        <div class="col-4">
+                            <a ref="javascript:void(0)" class="Multi" style="cursor: pointer;">
+                                <div><img src="Imagenes/MultiNO.png" onmouseover="this.src='Imagenes/MultiSI.png';"
+                                        onmouseout="this.src='Imagenes/MultiNO.png';" alt="" class="imagenes" /></div>
+                            </a>
+                        </div>
+
+                        <div class="col-2">
+
+
+                        </div>
                     </div>
-               </div>
-           </div>
-       </div>
-   </div>
 
-    
-  </div>
+                    
+                    <div class="row" style=" margin-top: 25%;">
+                        <div class="col-12 text-center">
+                            <a ref="javascript:void(0)" class="Regresar">
+                                <img src="Imagenes/BTNregresar.png" alt="" id="imgBTN" class="btnRegresar" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <!-- <div id="IncludeOp" ></div> -->
-  <div id="IncludeSolo" ></div>
-  <div id="IncludeMulti" ></div>
+        
+
+
+    </div>
+
+    <!-- <div id="IncludeOp" ></div> -->
+    <div id="IncludeSolo"></div>
+    <div id="IncludeMulti"></div>
 
 </body>
-	<style>
+<style>
+    .Todo {
 
 
-
-
- .Todo {
-      
-
-    background-image: url(Imagenes/Fondozomg.png);
-}
-
-    </style>
-</html>
+        background-image: url(Imagenes/Fondozomg.png);
+    }
+</style>

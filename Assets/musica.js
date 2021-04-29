@@ -1,10 +1,12 @@
-
 function play() {
+
+
   var audio = $('#audio')[0];
-  $(audio).prop("volume", 0.5);
+  $(audio).prop("volume", 0.2);
   audio.loop = true;
+  //audio.muted = true; 
   audio.play();
-   
+
 }
 
 function changevolume(value)
@@ -61,10 +63,10 @@ function ShowSolo()
     $("#IncludeSolo").show(); 
     $("#PJ").show();
     $("#IncludePause").hide(); 
+    $('.pantalla').css('visibility', 'visible');
     var audio = $('#audio')[0];
     audio.pause();
     
-
 }
 
 function ShowMulti()
@@ -78,13 +80,12 @@ function ShowMulti()
 
 function ShowPause()
 {
-    
+    $('.pantalla').css('visibility', 'hidden');
     $("#IncludeConfiguracionJuego").hide();
     $("#PJ").hide();
     $("#IncludePause").show(); 
     $("#MPause").show(); 
     
-
 }
 
 function ShowPrincipal()
@@ -97,7 +98,7 @@ function ShowPrincipal()
     $("#IncludeMulti").hide();
     $("#IncludeLeader").hide();
     $("#controles").hide();
-   
+    $("#MM").hide();
     $("#MP").show();
    
 }

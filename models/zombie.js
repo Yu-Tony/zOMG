@@ -8,6 +8,7 @@ class Zombie extends FBX{
         this.forward = 0.3;
         this.yaw = 0;
         this.side = 0;
+        this.anim = 0
     }
 
     follow(player, delta){

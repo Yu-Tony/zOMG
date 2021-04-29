@@ -1,9 +1,9 @@
 import * as THREE from '../js/libs/threeJS/three.module.js';
-import {Player} from '../models/player.js';
-import {Zombie} from '../models/zombie.js';
-import {Barrier} from '../models/barrier.js';
+import { Player } from '../models/player.js';
+import { Zombie } from '../models/zombie.js';
+import { Barrier } from '../models/barrier.js';
 import { OrbitControls } from '../js/libs/threeJS/OrbitControls.js';
-import {FBXLoader} from '../js/libs/threeJS/FBXLoader.js';
+import { FBXLoader } from '../js/libs/threeJS/FBXLoader.js';
 import { compressSync } from './libs/threeJS/fflate.module.min.js';
 
 var scene, renderer, camera;
@@ -20,27 +20,37 @@ var barrier;
 
 var vecPlayerMouse;
 
-$(document).ready( function () {
+window.addEventListener('resize', onWindowResize);
+
+function onWindowResize() {
+
+    camera.aspect = (window.innerWidth/1.5) / (window.innerHeight/1.5);
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth/1.5, window.innerHeight/1.5);
+
+}
+
+$(document).ready(function () {
     var tamañoDelCanvas = {
-        width: window.innerWidth,
-        height: window.innerHeight
+        width: window.innerWidth/1.5,
+        height: window.innerHeight/1.5
     }
     //Inicializamos el renderer
     renderer = new THREE.WebGLRenderer();
-    renderer.setSize(tamañoDelCanvas.width,tamañoDelCanvas.height);
-    renderer.setClearColor(new THREE.Color(0.7,0.7,1));
+    renderer.setSize(tamañoDelCanvas.width, tamañoDelCanvas.height);
+    renderer.setClearColor(new THREE.Color(0.7, 0.7, 1));
 
     //Inicializamos la camara
     camera = new THREE.PerspectiveCamera(
         75, //Field Of View.
-        tamañoDelCanvas.width/tamañoDelCanvas.height, //Relacion de aspecto.
+        tamañoDelCanvas.width / tamañoDelCanvas.height, //Relacion de aspecto.
         0.1, //Near - Que tan cerca debe estar un objeto para ser dibujado.
         1000 //Far - Que tan lejos puede estar un objeto para ser dibujado.
     );
     camera.position.x = 0;
     camera.position.y = 9;
     camera.position.z = -7;
-    camera.lookAt(new THREE.Vector3(0,-5,5));
+    camera.lookAt(new THREE.Vector3(0, -5, 5));
 
     //Inicializamos la escena
     scene = new THREE.Scene();
@@ -53,23 +63,23 @@ $(document).ready( function () {
 
     //------ILUMINACION------//
     var luzAmbiental = new THREE.AmbientLight(
-        new THREE.Color(1,1,1),
+        new THREE.Color(1, 1, 1),
         1.0 //Intensidad
     );
 
     var luzDireccional = new THREE.DirectionalLight(
-        new THREE.Color(1,1,1),
+        new THREE.Color(1, 1, 1),
         0.4 //Intensidad
     );
 
-    luzDireccional.position.set(0,0,1);
+    luzDireccional.position.set(0, 0, 1);
 
     scene.add(luzAmbiental);
     scene.add(luzDireccional);
 
     grid = new THREE.GridHelper(50, 10, 0x000000, 0x000000);
-	grid.position.y = -1;
-	scene.add(grid);
+    grid.position.y = -1;
+    scene.add(grid);
 
     mouse = new THREE.Vector2();
     raycaster = new THREE.Raycaster();
@@ -79,11 +89,11 @@ $(document).ready( function () {
 
     //Eventos del teclado.
     document.addEventListener('keydown', onKeyDown);
-	document.addEventListener('keyup', onKeyUp);
+    document.addEventListener('keyup', onKeyUp);
 
     //Evitar que la pagina haga scroll con la flechas.
-    window.addEventListener("keydown", function(e) {
-        if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+    window.addEventListener("keydown", function (e) {
+        if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
             e.preventDefault();
         }
     }, false);
@@ -92,84 +102,92 @@ $(document).ready( function () {
     loader = new FBXLoader()
 
     zombie = new Zombie();
-    load('../Assets/Zombie/zombie.fbx', zombie, 0, () =>{
+    load('../Assets/Zombie/zombie.fbx', zombie, zombie.anim, () => {
         zombie.object.position.z = 5;
     });
 
     player01 = new Player();
-    //player02 = new Player();
-    /*load('../Assets/Player/player.fbx', player01, null, (object)=> {
+
+   player02 = new Player();
+    /* load('../Assets/Player/player.fbx', player01, null, (object)=> {
 
         var clone = object.clone();
         player02.object = clone;
-        //getMixer(player02);
+        getMixer(player02);
         player02.isLoaded = true;
         scene.add(player02.object);
     });*/
 
-    load('../Assets/Player/player.fbx', player01, null, null);
-    //load('../Assets/Player/player.fbx', player02, 0, null);
+    load('../Assets/Player/playerAnim.fbx', player01, player01.anim, null);
+    load('../Assets/Player/playerAnim.fbx', player02, player02.anim, null);
 
     barrier = new Barrier()
-    load('../Assets/Barrier/barrier.fbx',barrier,null, ()=>{
+    load('../Assets/Barrier/barrier.fbx', barrier, null, () => {
         barrier.object.position.z = -5;
-        barrier.updateBBox(-5,0);
+        barrier.updateBBox(-5, 0);
     })
 
+
     render();
-} )
+})
 
-function render(){
+function render() {
 
+    
     requestAnimationFrame(render);
+    if ($('.pantalla').css('visibility') == 'visible') {
+   
+    
+        //player01.object.rotation.y += THREE.Math.degToRad(1);
+        const delta = clock.getDelta();
 
-    //player01.object.rotation.y += THREE.Math.degToRad(1);
-    const delta = clock.getDelta();
+        if (player01.mixer) player01.mixer.update(delta);
+        if (player01.isLoaded) {
+            player01.controller01(keys, zombie.object);
 
-    if(player01.mixer) player01.mixer.update( delta );
-    if(player01.isLoaded)
-    {
-        player01.controller01(keys, zombie.object);
-        
-        
 
-        player01.object.translateZ(player01.forward * delta)
-        player01.object.translateX(player01.side * delta);
-        player01.object.rotation.y += player01.yaw * delta;
-        player01.updateBBox(player01.forward * delta, player01.side * delta);
-        //player01.shot(zombie.object);
-        /*var vec = new THREE.Vector3(0,0,0);
-        player01.object.getWorldDirection(vec);
-        console.log(vec);*/
 
-        if ( player01.isLoaded && barrier.isLoaded ){
-            if ( detectCollision(player01, barrier) ){
-                console.log("colision")
-                player01.object.translateZ((-player01.forward) * delta)
-                player01.object.translateX((-player01.side) * delta);
-                player01.updateBBox((-player01.forward) * delta, (-player01.side) * delta);
+            player01.object.translateZ(player01.forward * delta)
+            player01.object.translateX(player01.side * delta);
+            player01.object.rotation.y += player01.yaw * delta;
+            player01.updateBBox(player01.forward * delta, player01.side * delta);
+            player01.playAnimation(player01.anim);
+            //player01.shot(zombie.object);
+            /*var vec = new THREE.Vector3(0,0,0);
+            player01.object.getWorldDirection(vec);
+            console.log(vec);*/
+
+            if (player01.isLoaded && barrier.isLoaded) {
+                if (detectCollision(player01, barrier)) {
+                    console.log("colision")
+                    player01.object.translateZ((-player01.forward) * delta)
+                    player01.object.translateX((-player01.side) * delta);
+                    player01.updateBBox((-player01.forward) * delta, (-player01.side) * delta);
+                }
             }
+
+
         }
 
+
+        if (player02.mixer) player02.mixer.update(delta);
+        if(player02.isLoaded)
+        {
+            player02.controller02(keys, zombie.object);
+            player02.object.translateZ((-player02.forward) * delta);
+            player02.object.translateX((-player02.side) * delta);
+            player02.object.rotation.y += player02.yaw * delta;
+            player02.playAnimation(player02.anim);
+        }
+
+        if(zombie.mixer) zombie.mixer.update(delta);
+        if(zombie.isLoaded){
+            zombie.follow(player01, delta);
+        }
+        renderer.render(scene, camera);
         
     }
 
-
-
-    /*if(player02.isLoaded)
-    {
-        player02.controller02(keys);
-        player02.object.translateZ(player02.forward * delta);
-        player02.object.translateX(player02.side * delta);
-        player02.object.rotation.y += player02.yaw * delta;
-    }*/
-
-    /*if(zombie.mixer) zombie.mixer.update(delta);
-    if(zombie.isLoaded){
-        zombie.follow(player01, delta);
-    }*/
-
-    renderer.render(scene, camera);
 }
 
 
@@ -181,7 +199,7 @@ function onKeyUp(event) {
     keys[String.fromCharCode(event.keyCode)] = false;
 }
 
-function keyboardEvents(){
+function keyboardEvents() {
 
 }
 
@@ -193,7 +211,8 @@ function onDocumentMouseMove(event) {
 
     var object = raycaster.intersectObject(zombie.object, true);
 
-    if(object.length > 0){
+
+    if (object.length > 0) {
         console.log(object[0].point);
 
         /*vecPlayerMouse = new THREE.Vector3(
@@ -213,14 +232,17 @@ function onDocumentMouseMove(event) {
 function load(path, buffer, anim, initializeObject) {
     loader.load(path, function (object) {
 
-        object.traverse( function ( child ) {
-            if( child.isMesh ){
+       
+        object.traverse(function (child) {
+            if (child.isMesh) {
                 child.castShadow = true;
                 child.receiveShadow = true;
             }
-        } );
+        });
 
-        buffer.mixer = new THREE.AnimationMixer( object );
+
+       buffer.mixer = new THREE.AnimationMixer(object);
+ 
         buffer.object = object;
         //buffer.object.vectorFront = new THREE.Vector3(0,0, /*buffer.object.position.z + */1);
         buffer.isLoaded = true;
@@ -231,15 +253,15 @@ function load(path, buffer, anim, initializeObject) {
 
         scene.add(buffer.object);
 
-        if(Number.isInteger(anim)) buffer.playAnimation(anim);
+        if (Number.isInteger(anim)) buffer.playAnimation(anim);
 
-        if(initializeObject)
-        initializeObject(object);
+        if (initializeObject)
+            initializeObject(object);
     });
 }
 
-function getMixer(object){
-    object.mixer = new THREE.AnimationMixer( object.object );
+function getMixer(object) {
+    object.mixer = new THREE.AnimationMixer(object.object);
 }
 
 /**
@@ -247,15 +269,15 @@ function getMixer(object){
  * @param {*} object1 
  * @param {*} object2 
  */
-function detectCollision(object1, object2){
-    
+function detectCollision(object1, object2) {
+
     //object1.BBox.applyMatrix4(object1.object.matrixWorld);
     //object1.BBox.translate(object1.object.position);
 
     //object2.BBox.applyMatrix4(object2.object.matrixWorld);
     //object2.BBox.translate(object2.object.position);
 
-  
+
     return object1.BBox.intersectsBox(object2.BBox);
 
 }

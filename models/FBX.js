@@ -15,8 +15,24 @@ class FBX{
      * @param {Number} x Indice de la animacion a reproducir.
      */
     playAnimation(x){
-        var action = this.mixer.clipAction(this.object.animations[ x ]);
-        action.play();
+
+        for(var i=0; i<this.object.animations.length; i++)
+        {
+           if(i==x)
+           {
+            var action = this.mixer.clipAction(this.object.animations[ i ]);
+            action.play();
+           }       
+           else
+           {
+            var nonaction = this.mixer.clipAction(this.object.animations[ i ]);
+            nonaction.stop();
+           }    
+      
+        }
+               
+
+       
     }
 
     updateBBox(velz, velx){

@@ -1,121 +1,97 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Pantalla Opcion</title>
-<link href="css/zomg.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
 <script>
 
-	$('.MP').on("click",function(){
+	$('.MP').on("click", function () {
 		ShowPrincipal();
-    });
-   
-	 </script>
+	});
 
-</head>
+</script>
 
-<body style="background-color: #000000">
 
-	
-	<div class="container" id="OP">
-	   
 
-		<div class="row" >
-			<div class="Todo">
-				<div class="container" style=" margin-top: 20%;">
+<div class="container" id="OP">
 
-					<div class="row" >
-						<div class="col-6">
-							<div class="column" ><img src="Imagenes/Volumen.png" alt="" id="img1" class="imagenes"/></div>
-						</div>
-						<div class="col-6">
-							<input type="range" list="tickmarks" onchange="changevolume(this.value)" >
-						<datalist id="tickmarks">
-						<option value="0" label="0%">
-						<option value="10">
-						<option value="20">
-						<option value="30">
-						<option value="40">
-						<option value="50" label="50%">
-						<option value="60">
-						<option value="70">
-						<option value="80">
-						<option value="90">
-						<option value="100" label="100%">
-						</datalist>
-						</div>
-					
+
+	<div class="row">
+		<div class="Todo">
+			<div class="container" style=" margin-top: 20%;">
+
+				<div class="row">
+					<div class="col-6">
+						<div class="column"><img src="Imagenes/Volumen.png" alt="" id="img1" class="imagenes" /></div>
 					</div>
-
-					<div class="row" style=" margin-top: 5%;">
-						<div class="col-6">
-						<div class="column" ><img src="Imagenes/VolumenFX.png" alt="" id="img1"  class="imagenes"/></div>
-						</div>
-						<div class="col-6">
-							<input type="range" list="tickmarks2">
+					<div class="col-6">
+						<input type="range" list="tickmarks" onchange="changevolume(this.value)">
 						<datalist id="tickmarks">
-						<option value="0" label="0%">
-						<option value="10">
-						<option value="20">
-						<option value="30">
-						<option value="40">
-						<option value="50" label="50%">
-						<option value="60">
-						<option value="70">
-						<option value="80">
-						<option value="90">
-						<option value="100" label="100%">
+							<option value="0" label="0%">
+							<option value="10">
+							<option value="20">
+							<option value="30">
+							<option value="40">
+							<option value="50" label="50%">
+							<option value="60">
+							<option value="70">
+							<option value="80">
+							<option value="90">
+							<option value="100" label="100%">
 						</datalist>
-						</div>
-					
-					</div>
-
-					<div class="row" style=" margin-top: 10%;">
-						<div class="col-12 text-center">
-							<a ref="javascript:void(0)" class="MP">
-								<img src="Imagenes/BTNregresar.png" alt="" id="imgBTN" class="btnRegresar"/>
-							</a>
-						
-						</div>
 					</div>
 
 				</div>
 
+				<div class="row" style=" margin-top: 5%;">
+					<div class="col-6">
+						<div class="column"><img src="Imagenes/VolumenFX.png" alt="" id="img1" class="imagenes" /></div>
+					</div>
+					<div class="col-6">
+						<input type="range" list="tickmarks2">
+						<datalist id="tickmarks">
+							<option value="0" label="0%">
+							<option value="10">
+							<option value="20">
+							<option value="30">
+							<option value="40">
+							<option value="50" label="50%">
+							<option value="60">
+							<option value="70">
+							<option value="80">
+							<option value="90">
+							<option value="100" label="100%">
+						</datalist>
+					</div>
 
-				
+				</div>
+
+				<div class="row" style=" margin-top: 10%;">
+					<div class="col-12 text-center">
+						<a ref="javascript:void(0)" class="MP">
+							<img src="Imagenes/BTNregresar.png" alt="" id="imgBTN" class="btnRegresar" />
+						</a>
+
+					</div>
+				</div>
+
 			</div>
-		</div>
 
+
+
+		</div>
 	</div>
+
+</div>
 
 
 </div>
-	
-<div id="IncludePrin" ></div>
 
-</body>
-	<style>
+<div id="IncludePrin"></div>
 
-
-
-    .Todo {
-    background-image: url(Imagenes/MenuOpciones.png);
-}
+<style>
+	.Todo {
+		background-image: url(Imagenes/MenuOpciones.png);
+	}
 
 
 
-.row input {
-    width: 70%;
-}
-
-
-
-
-    </style>
-</html>
+	.row input {
+		width: 70%;
+	}
+</style>
