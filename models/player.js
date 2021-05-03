@@ -9,7 +9,9 @@ class Player extends FBX{
         this.yaw = 0;
         this.side = 0;
         this.raycast = new THREE.Raycaster();
-        this.anim = 3;
+        this.anim = 0;
+        this.score = 0;
+        this.life = 100;
     }
 
     controller01(keys, tarjets){
@@ -124,6 +126,7 @@ class Player extends FBX{
         this.yaw = 0;
         this.side = 0;
         this.anim = 3;
+        this.score= 50;
     }
 
     shot(tarjets){
@@ -149,7 +152,24 @@ class Player extends FBX{
         }
     }
 
+    showScore()
+    {
+      
+        $("#scoreText").empty();
+        $('.pantalla').css('visibility', 'hidden');
+        $("#PJ").hide();
+        $("#IncludeGameOver").show(); 
+        $("#MPause").show(); 
+        $("#scoreText").append("Puntuación: " + this.score);
+    }
 
+    lowerHealth()
+    {
+        let health = document.getElementById("health")
+        this.life -=10;
+        health.value = this.life;
+    
+    }
 
 }
 

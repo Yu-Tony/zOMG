@@ -163,6 +163,23 @@ function render() {
                     player01.object.translateZ((-player01.forward) * delta)
                     player01.object.translateX((-player01.side) * delta);
                     player01.updateBBox((-player01.forward) * delta, (-player01.side) * delta);
+
+                    //Prueba de quitar vida al colisionar con la barrera, utiliza funciones de player
+
+                    if(player01.life > 0)
+                    {
+                        //lowerHealth(): toma la variable life del personaje, la decrementa en 10
+                        //Luego pasa el valor a la barra de vida que esta en principal.html
+                         player01.lowerHealth();
+                    }
+                    else
+                    {
+                        //showScore(): Muestra la ventana de showScore llamada PantallaGameOver.html
+                        //toma la variable score del personaje y le hace un append al texto de su score
+                        player01.showScore();
+                    }
+                   
+                   
                 }
             }
 
@@ -222,6 +239,8 @@ function onDocumentMouseMove(event) {
             )*/
     }
 }
+
+
 
 /**
  * Carga un archivo FBX y lo almacena en el objeto myObj. Y carga el mixer.

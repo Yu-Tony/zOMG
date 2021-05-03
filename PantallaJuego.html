@@ -4,6 +4,10 @@
         $(document).ready(function () {
             $("#IncludePause").load("Pause.html");
             $("#IncludePause").hide();
+
+            $("#IncludeGameOver").load("PantallaGameOver.html");
+            $("#IncludeGameOver").hide();
+
         });
 
         $(document).keyup(function (e) {
@@ -11,19 +15,20 @@
                 ShowPause();
             }
 
+
         });
 
     </script>
 
-    <script src="js/main.js" type="module"></script>
 
-
-    <div id="scene-section"></div>
 
     <div class="container" id="PJ">
+       
     </div>
 
     <div id="IncludePause"></div>
+    <div id="IncludeGameOver"></div>
+    <div id="IncludeWin"></div>
 
 
 <style>

@@ -1,3 +1,8 @@
+
+
+$.getScript('js/facebook.js');
+
+/* MUSICA */
 function play() {
 
 
@@ -14,6 +19,19 @@ function changevolume(value)
     var volume = value/100;
     var audio = $('#audio')[0];
     $(audio).prop("volume", volume);
+}
+
+/* FB SHARE */
+function shareFB() 
+{
+
+    var text = $("#scoreText").text();
+    var score = text.substr(12, 2);
+    console.log("score a compartir: " + score);
+    shareScore(score);
+
+   
+   
 }
 
 /* MENU PRINCIPAL*/
@@ -94,12 +112,15 @@ function ShowPrincipal()
     audio.play();
   
     $("#IncludeOp").hide();
+    $("#IncludeGameOver").hide();
     $("#IncludeSolo").hide();
     $("#IncludeMulti").hide();
     $("#IncludeLeader").hide();
     $("#controles").hide();
     $("#MM").hide();
     $("#MP").show();
+
+    $("#scoreText").empty();
    
 }
 
@@ -111,6 +132,20 @@ function ShowConfigGame()
     
 
 }
+
+/*function ShowGameOver()
+{
+
+  
+
+    $("#scoreText").empty();
+    $('.pantalla').css('visibility', 'hidden');
+    $("#PJ").hide();
+    $("#IncludeGameOver").show(); 
+    $("#MPause").show(); 
+    $("#scoreText").append("Puntuación: " + score);
+    
+}*/
 
 /*$(document).ready(function () {
 

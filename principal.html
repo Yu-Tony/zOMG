@@ -21,11 +21,10 @@
     crossorigin="anonymous"></script>
 
   <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
-  <script src="/Assets/musica.js"></script>
 
-
-
+  <script src="./js/pantallas.js"></script>
   <script type="module" src="./js/main.js"></script>
+
 
   <style>
     .pantalla {
@@ -43,11 +42,11 @@
 
 
       $("#includedContent").load("MenuPrincipal.html");
-      play();
 
       $('.pantalla').css('visibility', 'hidden');
 
    play();
+
 
     });
 
@@ -66,7 +65,13 @@
       </div>
     </div>
 
-<div class="pantalla">
+    <div class="pantalla">
+
+
+
+      <progress class="bg-success" id="health" value="100" max="100" style="width:100%"></progress>
+ 
+
       <div id="scene-section"></div>
     </div>
 

@@ -44,6 +44,9 @@ class FBX{
 
         this.BBox.translate(vel);
     }
+
+
+    
 }
 
 export {FBX}
