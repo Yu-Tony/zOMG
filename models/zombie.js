@@ -1,6 +1,6 @@
-import {FBX} from '../models/FBX.js'
-import { Player } from './player.js';
-import * as THREE from '../js/libs/threeJS/three.module.js';
+import {FBX} from 'http://localhost:8080/zOMG/models/FBX.js'
+import { Player } from 'http://localhost:8080/zOMG/models/player.js';
+import * as THREE from 'http://localhost:8080/zOMG/js/libs/threeJS/three.module.js';
 
 class Zombie extends FBX{
     constructor(){

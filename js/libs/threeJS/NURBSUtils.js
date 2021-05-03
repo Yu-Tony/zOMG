@@ -1,7 +1,7 @@
 import {
 	Vector3,
 	Vector4
-} from './three.module.js';
+} from 'http://localhost:8080/zOMG/js/libs/threeJS/three.module.js';
 
 /**
  * NURBS utils
