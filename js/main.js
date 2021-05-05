@@ -1,5 +1,6 @@
 import * as THREE from 'http://localhost:8080/zOMG/js/libs/threeJS/three.module.js';
 import { Player } from 'http://localhost:8080/zOMG/models/player.js';
+import { Escenario } from 'http://localhost:8080/zOMG/models/escenario.js';
 import { Zombie } from 'http://localhost:8080/zOMG/models/zombie.js';
 import { Barrier } from 'http://localhost:8080/zOMG/models/barrier.js';
 import { OrbitControls } from '../js/libs/threeJS/OrbitControls.js';
@@ -17,6 +18,7 @@ var player01;
 var player02;
 var zombie;
 var barrier;
+var escenario;
 
 var vecPlayerMouse;
 
@@ -127,6 +129,15 @@ $(document).ready(function () {
         barrier.updateBBox(-5, 0);
     })
 
+    escenario = new Escenario();
+    load('http://localhost:8888/zOMG/Assets/Escenario/escenarioConvertido.fbx', escenario, null, () => {
+        
+        escenario.object.scale.y=.01
+        escenario.object.scale.z=.01
+        escenario.object.scale.x=.01
+    })
+
+    
 
     render();
 })
