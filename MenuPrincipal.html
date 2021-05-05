@@ -1,60 +1,106 @@
+<script>
+    $(document).ready(function () {
 
-<!doctype html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Pantalla Menu</title>
-<link rel="stylesheet" href="css/zomg.css">
+        $("#IncludeMode").load("MenuMode.html");
+        $("#IncludeMode").hide();
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</head>
+        $("#IncludeOp").load("MenuOpcion.html");
+        $("#IncludeOp").hide();
 
-<body style="background-color: #000000">
+        $("#IncludeLeader").load("MenuLeaderbord.html");
+        $("#IncludeLeader").hide();
 
-  <div class="container" >
+        $("#IncludeControl").load("Controles.html");
+        $("#IncludeControl").hide();
 
-   <div class="row"  style="margin-top: 10%;">
-       <div class="Todo">
-           <div class="container">
-               <div class="row" style="margin-top: 35%;">
-                   <div class="col-4">
-                    <a href="PantallaJuego.html">
-                        <div  ><img src="Imagenes/SoloNO.png" alt="" id="img1" onmouseover="this.src='Imagenes/SoloSI.png';" onmouseout="this.src='Imagenes/SoloNO.png';" class="imagenes"/></div>                    
-                    </a>
-                     </div>
-                     <div class="col-4">
-                        <a href="PantallaJuego.html">
-                            <div  ><img src="Imagenes/MultiNO.png" onmouseover="this.src='Imagenes/MultiSI.png';" onmouseout="this.src='Imagenes/MultiNO.png';" alt="" class="imagenes"/></div>
-                        </a>
-                     </div>
-                     <div class="col-4">
-                        <a href="MenuOpcion.html">
-                            <div  ><img src="Imagenes/OpcionesNO.png" onmouseover="this.src='Imagenes/OpcionesSI.png';" onmouseout="this.src='Imagenes/OpcionesNo.png';" alt="" class="imagenes"/></div>
-                        </a>
-                      
-                     </div>
-               </div>
-           </div>
-       </div>
-   </div>
+        $('.ComenzarJuego').on("click", function () {
+            ShowMenuMode();
+        });
 
-    
-  </div>
+        $('.Configuracion').on("click", function () {
+            ShowOptions();
+        });
 
-</body>
-	<style>
+        $('.Leaderboard').on("click", function () {
+            ShowLeaderboard();
+        });
+
+        $('.Controles').on("click", function () {
+            ShowControls();
+
+        });
+
+    });
+
+</script>
 
 
+    <div class="container" id="MP">
 
 
- .Todo {
-      
+        <div class="row">
+            <div class="Todo">
+                <div class="container">
+                    <div class="row" style="margin-top: 35%;">
+                        <div class="col-12 text-center">
 
-    background-image: url(Imagenes/Fondozomg.png);
-}
+                        </div>
+                    </div>
 
-    </style>
-</html>
+                    <div class="row" style=" margin-top: 2%;">
+                        <div class="col-12 text-center">
+                            <a ref="javascript:void(0)" class="ComenzarJuego">
+                                <img src="Imagenes/BTNjugar.png" alt="" id="imgBTN" class="btnRegresar" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row" style=" margin-top: 1%;">
+                        <div class="col-12 text-center">
+                            <a ref="javascript:void(0)" class="Configuracion">
+                                <img src="Imagenes/BTNconfiguracion.png" alt="" id="imgBTN" class="btnRegresar" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row" style=" margin-top: 1%;">
+                        <div class="col-12 text-center">
+                            <a ref="javascript:void(0)" class="Leaderboard">
+                                <img src="Imagenes/BTNleaderboards.png" alt="" id="imgBTN" class="btnRegresar" />
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row" style=" margin-top: 1%;">
+                        <div class="col-12 text-center">
+                            <a ref="javascript:void(0)" class="Controles">
+                                <img src="Imagenes/BTNControles.png" alt="" id="imgBTN" class="btnRegresar" />
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div id="IncludeMode"></div>
+    <div id="IncludeOp"></div>
+    <div id="IncludeLeader"></div>
+    <div id="IncludeControl"></div>
+
+<style>
+    .Todo {
+
+        background-image: url("Imagenes/Fondo.png");
+    }
+
+    .Texto {
+        color: white;
+        font-family: fantasy;
+        font-size: 3vw;
+        ;
+    }
+</style>

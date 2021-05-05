@@ -1,0 +1,152 @@
+{
+  "accessors": [
+    {
+      "bufferView": 0,
+      "byteOffset": 0,
+      "componentType": 5123,
+      "count": 2634,
+      "max": [
+        1029
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 0,
+      "componentType": 5126,
+      "count": 1030,
+      "max": [
+        251.94923400878906,
+        1024.2974853515625,
+        102.2295913696289
+      ],
+      "min": [
+        -715.266845703125,
+        2.5676090717315674,
+        -55.93274688720703
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 0,
+      "componentType": 5126,
+      "count": 1030,
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 0,
+      "componentType": 5126,
+      "count": 1030,
+      "type": "VEC2"
+    }
+  ],
+  "asset": {
+    "generator": "maya-glTFExport",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 5268,
+      "byteOffset": 0,
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 12360,
+      "byteOffset": 5268,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 12360,
+      "byteOffset": 17628,
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 8240,
+      "byteOffset": 29988,
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "uri": "zombiestatic_data.bin",
+      "byteLength": 38228
+    }
+  ],
+  "images": [
+    {
+      "uri": "zombiestatic_img0.jpg"
+    }
+  ],
+  "materials": [
+    {
+      "alphaMode": "OPAQUE",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 1,
+        "roughnessFactor": 0.9951949996948242
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 2,
+            "POSITION": 1,
+            "TEXCOORD_0": 3
+          },
+          "indices": 0,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "mesh": 0,
+      "rotation": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "scale": [
+        0.016710930790066688,
+        0.016710930790066688,
+        0.016710930790066688
+      ],
+      "translation": [
+        3.9555088034345514,
+        0,
+        0
+      ]
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "defaultScene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "source": 0
+    }
+  ]
+}
