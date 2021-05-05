@@ -1,5 +1,5 @@
-import {FBXLoader} from 'http://localhost:8080/zOMG/js/libs/threeJS/FBXLoader.js';
-import * as THREE from 'http://localhost:8080/zOMG/js/libs/threeJS/three.module.js';
+import {FBXLoader} from 'http://localhost:8012/zOMG/js/libs/threeJS/FBXLoader.js';
+import * as THREE from 'http://localhost:8012/zOMG/js/libs/threeJS/three.module.js';
 
 class FBX{
     constructor()

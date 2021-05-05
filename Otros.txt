@@ -1,0 +1,19 @@
+Cambios de puerto:
+C:\xampp\htdocs\zOMG\js\libs\threeJS\FBXLoader.js
+C:\xampp\htdocs\zOMG\js\libs\threeJS\NURBSCurve.js
+C:\xampp\htdocs\zOMG\js\libs\threeJS\NURBSUtils.js
+C:\xampp\htdocs\zOMG\js\libs\threeJS\OrbitControls.js
+C:\xampp\htdocs\zOMG\js\main.js
+C:\xampp\htdocs\zOMG\js\pantallas.js
+C:\xampp\htdocs\zOMG\models\barrier.js
+C:\xampp\htdocs\zOMG\models\escenario.js
+C:\xampp\htdocs\zOMG\models\FBX.js
+C:\xampp\htdocs\zOMG\models\player.js
+C:\xampp\htdocs\zOMG\models\zombie.js
+C:\xampp\htdocs\zOMG\principal.html
+
+Modelos:
+Zombie https://sketchfab.com/3d-models/polygon-zombies-ce2605b934524d3db9f8e1261f44cdca
+personaje https://sketchfab.com/3d-models/low-poly-survivor-model-38dd20dd26b94e318099282d4e7430ba
+
+

@@ -1,8 +1,8 @@
-import * as THREE from 'http://localhost:8080/zOMG/js/libs/threeJS/three.module.js';
-import { Player } from 'http://localhost:8080/zOMG/models/player.js';
-import { Escenario } from 'http://localhost:8080/zOMG/models/escenario.js';
-import { Zombie } from 'http://localhost:8080/zOMG/models/zombie.js';
-import { Barrier } from 'http://localhost:8080/zOMG/models/barrier.js';
+import * as THREE from 'http://localhost:8012/zOMG/js/libs/threeJS/three.module.js';
+import { Player } from 'http://localhost:8012/zOMG/models/player.js';
+import { Zombie } from 'http://localhost:8012/zOMG/models/zombie.js';
+import { Escenario } from 'http://localhost:8012/zOMG/models/escenario.js';
+import { Barrier } from 'http://localhost:8012/zOMG/models/barrier.js';
 import { OrbitControls } from '../js/libs/threeJS/OrbitControls.js';
 import { FBXLoader } from '../js/libs/threeJS/FBXLoader.js';
 import { compressSync } from './libs/threeJS/fflate.module.min.js';
@@ -104,7 +104,7 @@ $(document).ready(function () {
     loader = new FBXLoader()
 
     zombie = new Zombie();
-    load('http://localhost:8080/zOMG/Assets/Zombie/zombie.fbx', zombie, zombie.anim, () => {
+    load('http://localhost:8012/zOMG/Assets/Zombie/zombie.fbx', zombie, zombie.anim, () => {
         zombie.object.position.z = 5;
     });
 
@@ -120,21 +120,24 @@ $(document).ready(function () {
         scene.add(player02.object);
     });*/
 
-    load('http://localhost:8080/zOMG/Assets/Player/playerAnim.fbx', player01, player01.anim, null);
-    load('http://localhost:8080/zOMG/Assets/Player/playerAnim.fbx', player02, player02.anim, null);
+    load('http://localhost:8012/zOMG/Assets/Player/playerAnim.fbx', player01, player01.anim, null);
+    load('http://localhost:8012/zOMG/Assets/Player/playerAnim.fbx', player02, player02.anim, null);
 
     barrier = new Barrier()
-    load('http://localhost:8080/zOMG/Assets/Barrier/barrier.fbx', barrier, null, () => {
+    load('http://localhost:8012/zOMG/Assets/Barrier/barrier.fbx', barrier, null, () => {
         barrier.object.position.z = -5;
         barrier.updateBBox(-5, 0);
     })
 
     escenario = new Escenario();
-    load('http://localhost:8888/zOMG/Assets/Escenario/escenarioConvertido.fbx', escenario, null, () => {
+    load('http://localhost:8012/zOMG/Assets/Escenario/newStage.fbx', escenario, null, () => {
         
-        escenario.object.scale.y=.01
-        escenario.object.scale.z=.01
-        escenario.object.scale.x=.01
+        escenario.object.scale.y=.004
+        escenario.object.scale.z=.004
+        escenario.object.scale.x=.004
+        escenario.object.position.z = 40
+        escenario.object.position.x = 1
+
     })
 
     
