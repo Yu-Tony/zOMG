@@ -41,9 +41,9 @@ import {
 	Vector4,
 	VectorKeyframeTrack,
 	sRGBEncoding
-} from 'http://localhost:8012/zOMG/js/libs/threeJS/three.module.js';
-import * as fflate from 'http://localhost:8012/zOMG/js/libs/threeJS/fflate.module.min.js';
-import { NURBSCurve } from 'http://localhost:8012/zOMG/js/libs/threeJS/NURBSCurve.js';
+} from '/zOMG/js/libs/threeJS/three.module.js';
+import * as fflate from '/zOMG/js/libs/threeJS/fflate.module.min.js';
+import { NURBSCurve } from '/zOMG/js/libs/threeJS/NURBSCurve.js';
 
 /**
  * Loader loads FBX file and generates Group representing FBX scene.

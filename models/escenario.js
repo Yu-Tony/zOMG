@@ -1,4 +1,4 @@
-import { FBX } from "http://localhost:8012/zOMG/models/FBX.js";
+import { FBX } from "/zOMG/models/FBX.js";
 
 class Escenario extends FBX{
     constructor(){

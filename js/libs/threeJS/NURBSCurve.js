@@ -2,8 +2,8 @@ import {
 	Curve,
 	Vector3,
 	Vector4
-} from 'http://localhost:8012/zOMG/js/libs/threeJS/three.module.js';
-import { NURBSUtils } from 'http://localhost:8012/zOMG/js/libs/threeJS/NURBSUtils.js';
+} from '/zOMG/js/libs/threeJS/three.module.js';
+import { NURBSUtils } from '/zOMG/js/libs/threeJS/NURBSUtils.js';
 
 /**
  * NURBS curve object

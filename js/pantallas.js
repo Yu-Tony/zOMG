@@ -1,6 +1,6 @@
 
 
-$.getScript('http://localhost:8012/zOMG/js/facebook.js');
+$.getScript('/zOMG/js/facebook.js');
 
 /* MUSICA */
 function play() {
