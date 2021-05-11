@@ -89,9 +89,13 @@ function ShowSolo()
 
 function ShowMulti()
 {
- 
     $("#MM").hide();
-    $("#IncludeMulti").show(); 
+    $("#IncludeSolo").show(); 
+    $("#PJ").show();
+    $("#IncludePause").hide(); 
+    $('.pantalla').css('visibility', 'visible');
+    var audio = $('#audio')[0];
+    audio.pause();
     
 
 }
