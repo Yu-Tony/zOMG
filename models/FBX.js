@@ -7,7 +7,10 @@ class FBX{
         this.object;
         this.mixer;
         this.isLoaded = false;
-        this.BBox;
+        //this.BBox;
+        this.tagsCollision;
+        this.objToCollision = [];
+        this.collisions = false;
     }
 
     /**
@@ -35,18 +38,18 @@ class FBX{
        
     }
 
-    updateBBox(velz, velx){
-        var v = new THREE.Vector3(0,0,0);
-        var vel = new THREE.Vector3(velx,0,velz);
+    updateBBox(){
 
-        this.object.getWorldDirection(v);
-        v.multiply(vel);
-
-        this.BBox.translate(vel);
+        this.object.BBox.setFromObject(this.object);
     }
 
+    noDisponible(){
+        this.object.position.y = -5;
+    }
 
-    
+    disponible(){
+        this.object.position.y = 0;
+    }
 }
 
 export {FBX}

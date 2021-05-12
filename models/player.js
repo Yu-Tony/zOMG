@@ -2,9 +2,10 @@ import {FBX} from '/zOMG/models/FBX.js'
 import * as THREE from '/zOMG/js/libs/threeJS/three.module.js';
 
 class Player extends FBX{
-    constructor()
+    constructor(playerNum)
     {
         super();
+        this.playerNum = playerNum;
         this.forward = 0;
         this.yaw = 0;
         this.side = 0;
@@ -12,10 +13,54 @@ class Player extends FBX{
         this.anim = 0;
         this.score = 0;
         this.life = 100;
+        this.tagsCollision = ["zombie", "barrier"]
+    }
+
+    main(delta, keys, tarjets){
+        if (this.mixer) this.mixer.update(delta);
+
+        if(this.playerNum == 0) this.controller01(keys, tarjets)
+        else if(this.playerNum == 1) this.controller02(keys, tarjets)
+
+        this.object.translateZ(this.forward * delta)
+        this.object.translateX(this.side * delta);
+        this.object.rotation.y += this.yaw * delta;
+        this.updateBBox();
+        this.playAnimation(this.anim);
+        this.detectCollisions(
+            this.objToCollision,
+            delta
+        )
+    }
+
+    detectCollisions(col, delta){
+        for (let i = 0; i < col.length; i++) {
+
+            if( this.object.BBox.intersectsBox(col[i].BBox) ){
+                switch (col[i].name) {
+                    case "barrier":
+                        console.log("barrera");
+                        this.object.translateZ((-this.forward) * delta)
+                        this.object.translateX((-this.side) * delta);
+                        break;
+
+                    case "zombie":
+                        console.log("zombie");
+                        this.object.translateZ((-this.forward) * delta)
+                        this.object.translateX((-this.side) * delta);
+                        break;
+                
+                    default:
+                        break;
+                }
+                break;
+            }
+            
+        }
     }
 
     controller01(keys, tarjets){
-        this.initializeValues();
+        this.initializeControllerValues();
         
         if (keys["V"]) {
             this.yaw = -5;
@@ -68,10 +113,12 @@ class Player extends FBX{
         //this.shot(tarjets);
         //C For Shot
 
+        //console.log(this.BBox.min);
+
     }
 
     controller02(keys, tarjets){
-        this.initializeValues();
+        this.initializeControllerValues();
 
         if (keys["'"]) {
             this.yaw = -5;
@@ -121,11 +168,15 @@ class Player extends FBX{
 
     }
 
-    initializeValues(){
+    initializeControllerValues(){
         this.forward = 0
         this.yaw = 0;
         this.side = 0;
         this.anim = 3;
+    }
+
+    initializeValues(){
+        
         this.score= 50;
     }
 
@@ -148,7 +199,9 @@ class Player extends FBX{
         var colision = this.raycast.intersectObject(tarjets, true);
 
         if(colision.length > 0){
-            console.log("zombie shotted");
+            //console.log("zombie shotted");
+           // debugger;
+            colision[0].object.parent.damage(10);
         }
     }
 

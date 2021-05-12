@@ -16,9 +16,14 @@ var mouse;
 var grid;
 var player01;
 var player02;
+var players = [];
 var zombie;
 var barrier;
 var escenario;
+
+var objectsLoaded = 0;
+var numberOfObjects = 0;
+
 
 var vecPlayerMouse;
 
@@ -66,18 +71,27 @@ $(document).ready(function () {
     //------ILUMINACION------//
     var luzAmbiental = new THREE.AmbientLight(
         new THREE.Color(1, 1, 1),
-        1.0 //Intensidad
+        0.45 //Intensidad
     );
+    luzAmbiental.name = "amb";
 
     var luzDireccional = new THREE.DirectionalLight(
-        new THREE.Color(1, 1, 1),
+        new THREE.Color(0.7, 0.5, 0.5),
         0.4 //Intensidad
     );
+    luzDireccional.name = "dir";
+    luzDireccional.position.set(1, 1, 0);
 
-    luzDireccional.position.set(0, 0, 1);
+    var luzDireccional2 = new THREE.DirectionalLight(
+        new THREE.Color(0.2, 0.2, 0.4),
+        0.3 //Intensidad
+    );
+    luzDireccional2.name = "dir2";
+    luzDireccional2.position.set(-1, 1, -1);
 
     scene.add(luzAmbiental);
     scene.add(luzDireccional);
+    scene.add(luzDireccional2);
 
     grid = new THREE.GridHelper(50, 10, 0x000000, 0x000000);
     grid.position.y = -1;
@@ -103,14 +117,20 @@ $(document).ready(function () {
 
     loader = new FBXLoader()
 
+    numberOfObjects++;
     zombie = new Zombie();
     load('/zOMG/Assets/Zombie/zombie.fbx', zombie, zombie.anim, () => {
-        zombie.object.position.z = 5;
+        zombie.object.position.z = 4;
+        zombie.updateBBox(5, 0);
+        zombie.object.name="zombie";
+        //debugger;
+        zombie.initializeValues(scene);
     });
 
-    player01 = new Player();
-
-   player02 = new Player();
+    numberOfObjects++;
+    player01 = new Player(0);
+    numberOfObjects++;
+    player02 = new Player(1);
     /* load('../Assets/Player/player.fbx', player01, null, (object)=> {
 
         var clone = object.clone();
@@ -120,15 +140,28 @@ $(document).ready(function () {
         scene.add(player02.object);
     });*/
 
-    load('/zOMG/Assets/Player/playerAnim.fbx', player01, player01.anim, null);
-    load('/zOMG/Assets/Player/playerAnim.fbx', player02, player02.anim, null);
+    load('/zOMG/Assets/Player/playerAnim.fbx', player01, player01.anim, ()=>{
+        player01.object.life = player01.life;
+        player01.object.name = "player";
+        player01.object.position.z = -3;
+        players.push(player01.object);
+    });
+    load('/zOMG/Assets/Player/playerAnim.fbx', player02, player02.anim, ()=>{
+        player02.object.name = "player";
+        player02.object.position.z = -5;
+        players.push(player02.object);
+    });
 
+    numberOfObjects++;
     barrier = new Barrier()
     load('/zOMG/Assets/Barrier/barrier.fbx', barrier, null, () => {
-        barrier.object.position.z = -5;
+        barrier.object.position.z = 0;
         barrier.updateBBox(-5, 0);
+        barrier.object.name = "barrier";
+        barrier.initializeValues(scene);
     })
 
+    numberOfObjects++;
     escenario = new Escenario();
     load('/zOMG/Assets/Escenario/newStage.fbx', escenario, null, () => {
         
@@ -147,75 +180,117 @@ $(document).ready(function () {
 
 function render() {
 
-    
+    if (keys["T"]) {
+        scene.getObjectByName("amb").intensity += 0.01; 
+    } else if (keys["G"]) {
+        scene.getObjectByName("amb").intensity -= 0.01;
+    }
+    if (keys["Y"]) {
+        //scene.getObjectByName("dir").intensity += 0.01; 
+        scene.getObjectByName("dir2").intensity += 0.01; 
+    } else if (keys["H"]) {
+        //scene.getObjectByName("dir").intensity -= 0.01;
+        scene.getObjectByName("dir2").intensity -= 0.01;
+    }
+
     requestAnimationFrame(render);
     if ($('.pantalla').css('visibility') == 'visible') {
    
-    
-        //player01.object.rotation.y += THREE.Math.degToRad(1);
-        const delta = clock.getDelta();
+        if( objectsLoaded == numberOfObjects ){
+            
+        
 
-        if (player01.mixer) player01.mixer.update(delta);
-        if (player01.isLoaded) {
-            player01.controller01(keys, zombie.object);
+            //player01.object.rotation.y += THREE.Math.degToRad(1);
+            const delta = clock.getDelta();
+
+            
+            //if (player01.isLoaded) {
+                //player01.controller01(keys, zombie.object);
+                if(!player01.collisions) objectsToCollisionArray(player01);
+                player01.main(
+                    delta, 
+                    keys, 
+                    zombie.object //Objetivos a disparar con el arma
+                );
 
 
+                //player01.object.translateZ(player01.forward * delta)
+                //player01.object.translateX(player01.side * delta);
+                //player01.object.rotation.y += player01.yaw * delta;
+                //player01.updateBBox(player01.forward * delta, player01.side * delta);
+                //player01.playAnimation(player01.anim);
 
-            player01.object.translateZ(player01.forward * delta)
-            player01.object.translateX(player01.side * delta);
-            player01.object.rotation.y += player01.yaw * delta;
-            player01.updateBBox(player01.forward * delta, player01.side * delta);
-            player01.playAnimation(player01.anim);
-            //player01.shot(zombie.object);
-            /*var vec = new THREE.Vector3(0,0,0);
-            player01.object.getWorldDirection(vec);
-            console.log(vec);*/
+                /*player01.detectCollisions(
+                    player01.objToCollision
+                )*/
+                //player01.shot(zombie.object);
+                /*var vec = new THREE.Vector3(0,0,0);
+                player01.object.getWorldDirection(vec);
+                console.log(vec);*/
 
-            if (player01.isLoaded && barrier.isLoaded) {
-                if (detectCollision(player01, barrier)) {
-                    console.log("colision")
-                    player01.object.translateZ((-player01.forward) * delta)
-                    player01.object.translateX((-player01.side) * delta);
-                    player01.updateBBox((-player01.forward) * delta, (-player01.side) * delta);
+                /*if (player01.isLoaded && barrier.isLoaded) {
+                    if (detectCollision(player01, barrier)) {
+                        console.log("colision")
+                        player01.object.translateZ((-player01.forward) * delta)
+                        player01.object.translateX((-player01.side) * delta);
+                        player01.updateBBox((-player01.forward) * delta, (-player01.side) * delta);
 
-                    //Prueba de quitar vida al colisionar con la barrera, utiliza funciones de player
+                        //Prueba de quitar vida al colisionar con la barrera, utiliza funciones de player
 
-                    if(player01.life > 0)
-                    {
-                        //lowerHealth(): toma la variable life del personaje, la decrementa en 10
-                        //Luego pasa el valor a la barra de vida que esta en principal.html
-                         player01.lowerHealth();
+                        if(player01.life > 0)
+                        {
+                            //lowerHealth(): toma la variable life del personaje, la decrementa en 10
+                            //Luego pasa el valor a la barra de vida que esta en principal.html
+                            player01.lowerHealth();
+                        }
+                        else
+                        {
+                            //showScore(): Muestra la ventana de showScore llamada PantallaGameOver.html
+                            //toma la variable score del personaje y le hace un append al texto de su score
+                            player01.showScore();
+                        }
+                    
+                    
                     }
-                    else
-                    {
-                        //showScore(): Muestra la ventana de showScore llamada PantallaGameOver.html
-                        //toma la variable score del personaje y le hace un append al texto de su score
-                        player01.showScore();
-                    }
-                   
-                   
-                }
-            }
+                }*/
 
 
-        }
+            //}
 
 
-        if (player02.mixer) player02.mixer.update(delta);
-        if(player02.isLoaded)
-        {
-            player02.controller02(keys, zombie.object);
-            player02.object.translateZ((-player02.forward) * delta);
-            player02.object.translateX((-player02.side) * delta);
-            player02.object.rotation.y += player02.yaw * delta;
-            player02.playAnimation(player02.anim);
-        }
+            /*if (player02.mixer) player02.mixer.update(delta);
+            if(player02.isLoaded)
+            {
+                player02.controller02(keys, zombie.object);
+                player02.object.translateZ((-player02.forward) * delta);
+                player02.object.translateX((-player02.side) * delta);
+                player02.object.rotation.y += player02.yaw * delta;
+                player02.playAnimation(player02.anim);
+            }*/
 
-        if(zombie.mixer) zombie.mixer.update(delta);
-        if(zombie.isLoaded){
-            zombie.follow(player01, delta);
-        }
-        renderer.render(scene, camera);
+            /*if(zombie.mixer) zombie.mixer.update(delta);
+            if(zombie.isLoaded){
+                zombie.follow(player01, delta);
+            }*/
+            if(!player02.collisions) objectsToCollisionArray(player02);
+            player02.main(
+                delta, 
+                keys, 
+                zombie.object //Objetivos a disparar con el arma
+            );
+
+            if( !zombie.collisions ) objectsToCollisionArray(zombie);
+            zombie.main(
+                players, //Jugador a seguir.
+                delta
+            );
+
+            barrier.main();
+
+            
+            renderer.render(scene, camera);
+
+        }   
         
     }
 
@@ -280,16 +355,17 @@ function load(path, buffer, anim, initializeObject) {
         //buffer.object.vectorFront = new THREE.Vector3(0,0, /*buffer.object.position.z + */1);
         buffer.isLoaded = true;
 
-        buffer.BBox = new THREE.Box3();
-        buffer.BBox.expandByObject(buffer.object);
+        buffer.object.BBox = new THREE.Box3();
+        buffer.object.BBox.expandByObject(buffer.object);
         //buffer.BBox.applyMatrix4(buffer.object.matrixWorld);
 
         scene.add(buffer.object);
 
         if (Number.isInteger(anim)) buffer.playAnimation(anim);
 
-        if (initializeObject)
-            initializeObject(object);
+        if (initializeObject) initializeObject(object);
+
+        objectsLoaded++;
     });
 }
 
@@ -304,13 +380,22 @@ function getMixer(object) {
  */
 function detectCollision(object1, object2) {
 
-    //object1.BBox.applyMatrix4(object1.object.matrixWorld);
-    //object1.BBox.translate(object1.object.position);
-
-    //object2.BBox.applyMatrix4(object2.object.matrixWorld);
-    //object2.BBox.translate(object2.object.position);
-
-
     return object1.BBox.intersectsBox(object2.BBox);
 
 }
+
+function objectsToCollisionArray(object){
+
+    scene.children.forEach(child => {
+        for (let i = 0; i < object.tagsCollision.length; i++) {
+            if(child.name == object.tagsCollision[i]){
+                object.objToCollision.push(child)
+            }
+        }
+        
+    });
+
+    object.collisions = true;
+    
+}
+
