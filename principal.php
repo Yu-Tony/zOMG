@@ -1,3 +1,16 @@
+<?php
+ session_start();
+
+ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+    
+  }
+  else
+  {
+    //header('Location: Registrarse.php');  
+  }
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -59,6 +72,17 @@
 <body style="background-color: #000000; user-select: none;">
 
   <div class="container">
+
+    <div class="row" style="margin-top: 1%">
+      <div class="col-5">
+      </div>
+      <div class="col-7">
+        <a href = "php/logout.php" class="LogOut">
+          <img src="Imagenes/BTNregresar.png" alt="" id="imgBTN" class="btnRegresar" style="float: right;">
+      </a>
+      </div>
+    </div>
+
     <div class="row" style="margin-top: 1%">
       <div class="col-12 text-center">
         <img src="Imagenes/zOMG.png" alt="" class="btnRegresar" />

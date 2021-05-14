@@ -32,6 +32,7 @@
 					<div class="row" style="margin-top: 8%;">
 						<div class="col-12 text-center">
 							
+							<p class="text"> Puntuacion: </p>
 							<p class="text" id="scoreText">  </p>
                             <button onclick="shareFB();">Compartir en Facebook</button>
 

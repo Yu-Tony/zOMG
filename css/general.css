@@ -31,7 +31,7 @@ form .row{
     margin-top: 20px;
 }
 
-form input[type="text"]{
+form input[type="text"], [type="password"]{
     font-family: Georgia;
     font-size: 25px;
 

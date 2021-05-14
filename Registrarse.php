@@ -1,3 +1,13 @@
+<?php
+ session_start();
+
+ if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true){
+    header("location: principal.php");
+    exit;
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,30 +51,37 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <form action="principal.html" class="signin">
-
+            <form action="php/signup.php" method="POST" id="myform" class="signin">
                     <div class="row">
                         <div class="col-lg-12 center">
-                            <input type="text" name="" id="" placeholder="Correo electrónico">
+                            <input type="text" name="username" placeholder="Usuario" required>
+                      
+
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-12 center">
-                            <input type="text" name="" id="" placeholder="Contraseña">
+                            <input type="password" placeholder="Contraseña" name="password" required>
+
+
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-12 center">
-                            <input type="text" name="" id="" placeholder="Usuario">
+
+                            <input type="password" name="confirm_password" placeholder="Confirmar Contraseña" required>
+
+
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-12 center">
                            
-                            <button class="buttonAccent">REGISTRARSE</button>
+                        <input type="submit" class="buttonAccent" value="REGISTRARSE" name="signup-submit">
+                   
                            
                         </div>
                     </div>
@@ -72,7 +89,7 @@
             </div>
             
             <div class="col-lg-6">
-                <form action="principal.html" class="login">
+            <form action="php/login.php" method="POST" id="myform" class="login">
                     
                     <div class="row">
                         <div class="col-lg-12 center" id="title-login">
@@ -82,20 +99,21 @@
 
                     <div class="row">
                         <div class="col-lg-12 center">
-                            <input type="text" name="" id="" placeholder="Correo electrónico">
+                            
+                            <input type="text" name="username" id="" placeholder="Correo electrónico" required>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-12 center">
-                            <input type="text" name="" id="" placeholder="Contraseña">
+                            <input type="password" name="password" id="" placeholder="Contraseña" required>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-lg-12 center">
                             
-                            <button class="buttonAccent" >ENTRAR</button>
+                        <input type="submit" class="buttonAccent" value="ENTRAR" name="login-submit">
                         </div>
                     </div>
                 </form>

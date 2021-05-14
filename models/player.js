@@ -127,17 +127,17 @@ class Player extends FBX{
             this.yaw = 5;
 		}
 		if (keys["I"]) {
-			this.forward = -5;
+            this.forward = 5;
             this.anim = 1;
 		} else if (keys["K"]) {
-			this.forward = 5;
+			this.forward = -5;
             this.anim = 1;
 		}
         if (keys["J"]) {
-			this.side = -5;
+			this.side = 5;
             this.anim = 1;
 		} else if (keys["L"]) {
-			this.side = 5;
+			this.side = -5;
             this.anim = 1;
 		}
 
@@ -213,7 +213,7 @@ class Player extends FBX{
         $("#PJ").hide();
         $("#IncludeGameOver").show(); 
         $("#MPause").show(); 
-        $("#scoreText").append("Puntuación: " + this.score);
+        $("#scoreText").text( this.score);
     }
 
     lowerHealth()
