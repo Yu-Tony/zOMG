@@ -163,7 +163,7 @@ $(document).ready(function () {
 
     numberOfObjects++;
     escenario = new Escenario();
-    load('/zOMG/Assets/Escenario/newStage.fbx', escenario, null, () => {
+    load('/zOMG/Assets/Escenario/newStage2.fbx', escenario, null, () => {
         
         escenario.object.scale.y=.004
         escenario.object.scale.z=.004
