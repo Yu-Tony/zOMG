@@ -196,7 +196,7 @@ class Player extends FBX{
             );
 
         //console.log(this.object.dir);
-        var colision = this.raycast.intersectObject(tarjets, true);
+        var colision = this.raycast.intersectObjects(tarjets, true);
 
         if(colision.length > 0){
             //console.log("zombie shotted");

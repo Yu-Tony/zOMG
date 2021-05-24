@@ -64,14 +64,14 @@ class Zombie extends FBX{
             if( this.object.BBox.intersectsBox(col[i].BBox) ){
                 switch (col[i].name) {
                     case "barrier":
-                        console.log("Atacar barrera");
+                        //console.log("Atacar barrera");
                         this.object.translateZ((-this.forward) * delta);
                         col[i].damage(1);
                         //debugger;
                         break;
 
                     case "player":
-                        console.log("Atacar jugador");
+                        //console.log("Atacar jugador");
                         this.object.translateZ((-this.forward) * delta);
                         break;
                 
@@ -90,11 +90,26 @@ class Zombie extends FBX{
         let scope = this;
         this.object.life = 100;
 
+        //this.object.dieEvent = null;
+
         this.object.die = function(){
             //debugger;
             scope.forward = 0;
             scene.remove(this);
             scope.noDisponible();
+            this.alive = false;
+
+            this.dispatchEvent({ type: "die"});
+
+            
+        }
+
+        this.object.revive = function(){
+            scope.forward = 0.5;
+            scene.add(this);
+            scope.disponible();
+            this.alive = true;
+            this.life = 100;
         }
 
         this.object.damage = function(dmg){

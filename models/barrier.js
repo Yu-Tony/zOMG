@@ -25,7 +25,7 @@ class Barrier extends FBX{
 
             if( this.life == 0 ) {this.die()};
             
-            console.log(this.life);
+            //console.log(this.life);
         }
     }
 }

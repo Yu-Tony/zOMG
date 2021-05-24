@@ -1,5 +1,8 @@
 import * as THREE from '/zOMG/js/libs/threeJS/three.module.js';
+import { SkeletonUtils } from '/zOMG/js/libs/threeJS/SkeletonUtils.js';
 import { Player } from '/zOMG/models/player.js';
+import { Level } from '/zOMG/models/level.js';
+import { Game } from '/zOMG/models/game.js';
 import { Zombie } from '/zOMG/models/zombie.js';
 import { Escenario } from '/zOMG/models/escenario.js';
 import { Barrier } from '/zOMG/models/barrier.js';
@@ -17,12 +20,20 @@ var grid;
 var player01;
 var player02;
 var players = [];
-var zombie;
+var zombies = [];
+var spawns = [];
+var levels = [];
+var zombiesClass=[];
 var barrier;
 var escenario;
+var game;
+var globalLevel;
 
+
+var zombiesInLevel = false;
 var objectsLoaded = 0;
 var numberOfObjects = 0;
+var timer = 0;
 
 
 var vecPlayerMouse;
@@ -48,6 +59,7 @@ $(document).ready(function () {
     renderer.setClearColor(new THREE.Color(0.7, 0.7, 1));
 
     //Inicializamos la camara
+    var tarjet = new THREE.Vector3(0,-5,5);
     camera = new THREE.PerspectiveCamera(
         75, //Field Of View.
         tamañoDelCanvas.width / tamañoDelCanvas.height, //Relacion de aspecto.
@@ -55,9 +67,9 @@ $(document).ready(function () {
         1000 //Far - Que tan lejos puede estar un objeto para ser dibujado.
     );
     camera.position.x = 0;
-    camera.position.y = 9;
-    camera.position.z = -7;
-    camera.lookAt(new THREE.Vector3(0, -5, 5));
+    camera.position.y = 2;
+    camera.position.z = -13;
+    camera.lookAt(tarjet);
 
     //Inicializamos la escena
     scene = new THREE.Scene();
@@ -117,15 +129,30 @@ $(document).ready(function () {
 
     loader = new FBXLoader()
 
-    numberOfObjects++;
-    zombie = new Zombie();
-    load('/zOMG/Assets/Zombie/zombie.fbx', zombie, zombie.anim, () => {
-        zombie.object.position.z = 4;
-        zombie.updateBBox(5, 0);
-        zombie.object.name="zombie";
-        //debugger;
-        zombie.initializeValues(scene);
-    });
+    game = new Game();
+
+    //----------------- SPAWNS LEVEL 01 -------------------------//
+    
+    spawns.push(new THREE.Vector3(0,0,20.3));
+    spawns.push(new THREE.Vector3(-2.5,0,8.3));
+    spawns.push(new THREE.Vector3(2.5,0,13.3));
+
+    //----------------- ZOMBIES -------------------------//
+    for (let i = 0; i < 5; i++) {
+        numberOfObjects++;
+        zombiesClass.push (new Zombie());
+        load('/zOMG/Assets/Zombie/zombie.fbx', zombiesClass[i], zombiesClass[i].anim, () => {
+            zombiesClass[i].object.position.z = 4;
+            //zombie.updateBBox(5, 0);
+            zombiesClass[i].object.name="zombie";
+            zombiesClass[i].initializeValues(scene);
+            zombiesClass[i].object.die()
+            objectsLoaded++;
+
+        });     
+    }
+    
+    
 
     numberOfObjects++;
     player01 = new Player(0);
@@ -145,11 +172,15 @@ $(document).ready(function () {
         player01.object.name = "player";
         player01.object.position.z = -3;
         players.push(player01.object);
+
+        objectsLoaded++;
     });
     load('/zOMG/Assets/Player/playerAnim.fbx', player02, player02.anim, ()=>{
         player02.object.name = "player";
         player02.object.position.z = -5;
         players.push(player02.object);
+
+        objectsLoaded++;
     });
 
     numberOfObjects++;
@@ -159,6 +190,8 @@ $(document).ready(function () {
         barrier.updateBBox(-5, 0);
         barrier.object.name = "barrier";
         barrier.initializeValues(scene);
+
+        objectsLoaded++;
     })
 
     numberOfObjects++;
@@ -170,6 +203,8 @@ $(document).ready(function () {
         escenario.object.scale.x=.004
         escenario.object.position.z = 40
         escenario.object.position.x = 1
+
+        objectsLoaded++;
 
     })
 
@@ -198,97 +233,74 @@ function render() {
    
         if( objectsLoaded == numberOfObjects ){
             
-        
+            if(!zombiesInLevel){
+                for (let i = 0; i < 5; i++) {
+                    zombies.push(zombiesClass[i].object);
+                    //scene.add(zombies[i]);    
+                }
 
-            //player01.object.rotation.y += THREE.Math.degToRad(1);
-            const delta = clock.getDelta();
+                globalLevel = new Level(game.actualLevel ,spawns, zombies, new THREE.Vector3(0,9,-7));
+                /*levels.push(level01);
 
+                var level02 = new Level(1,spawns, zombies, new THREE.Vector3(0,9,0));
+                levels.push(level02);*/
+
+                /*var level03 = new Level(3,spawns, zombies, new THREE.Vector3(0,9,-7));
+                levels.push(level03);*/
+
+
+
+                zombiesInLevel = true;
+            }
+            else
+            {
+                const delta = clock.getDelta();
+                timer += delta;
             
-            //if (player01.isLoaded) {
-                //player01.controller01(keys, zombie.object);
                 if(!player01.collisions) objectsToCollisionArray(player01);
                 player01.main(
                     delta, 
                     keys, 
-                    zombie.object //Objetivos a disparar con el arma
+                    zombies //Objetivos a disparar con el arma
+                );
+
+                if(!player02.collisions) objectsToCollisionArray(player02);
+                player02.main(
+                    delta, 
+                    keys, 
+                    zombies //Objetivos a disparar con el arma
                 );
 
 
-                //player01.object.translateZ(player01.forward * delta)
-                //player01.object.translateX(player01.side * delta);
-                //player01.object.rotation.y += player01.yaw * delta;
-                //player01.updateBBox(player01.forward * delta, player01.side * delta);
-                //player01.playAnimation(player01.anim);
+                zombiesClass.forEach(zombie => {
+                    if( !zombie.collisions ) objectsToCollisionArray(zombie);
+                        zombie.main(
+                        players, //Jugador a seguir.
+                        delta
+                    );
+                });
 
-                /*player01.detectCollisions(
-                    player01.objToCollision
-                )*/
-                //player01.shot(zombie.object);
-                /*var vec = new THREE.Vector3(0,0,0);
-                player01.object.getWorldDirection(vec);
-                console.log(vec);*/
+                
 
-                /*if (player01.isLoaded && barrier.isLoaded) {
-                    if (detectCollision(player01, barrier)) {
-                        console.log("colision")
-                        player01.object.translateZ((-player01.forward) * delta)
-                        player01.object.translateX((-player01.side) * delta);
-                        player01.updateBBox((-player01.forward) * delta, (-player01.side) * delta);
+                barrier.main();
 
-                        //Prueba de quitar vida al colisionar con la barrera, utiliza funciones de player
+                if(delta < 1){
+                    if(!globalLevel.isOver())
+                        game.startingLevel(globalLevel, camera, delta);
+                    else{
+                        game.actualLevel ++;
+                        globalLevel = new Level(game.actualLevel ,spawns, zombies, new THREE.Vector3(0,9,0));
 
-                        if(player01.life > 0)
-                        {
-                            //lowerHealth(): toma la variable life del personaje, la decrementa en 10
-                            //Luego pasa el valor a la barra de vida que esta en principal.html
-                            player01.lowerHealth();
-                        }
-                        else
-                        {
-                            //showScore(): Muestra la ventana de showScore llamada PantallaGameOver.html
-                            //toma la variable score del personaje y le hace un append al texto de su score
-                            player01.showScore();
-                        }
-                    
-                    
                     }
-                }*/
+                }
+                    
 
+                renderer.render(scene, camera);
+            }
+            
 
-            //}
-
-
-            /*if (player02.mixer) player02.mixer.update(delta);
-            if(player02.isLoaded)
-            {
-                player02.controller02(keys, zombie.object);
-                player02.object.translateZ((-player02.forward) * delta);
-                player02.object.translateX((-player02.side) * delta);
-                player02.object.rotation.y += player02.yaw * delta;
-                player02.playAnimation(player02.anim);
-            }*/
-
-            /*if(zombie.mixer) zombie.mixer.update(delta);
-            if(zombie.isLoaded){
-                zombie.follow(player01, delta);
-            }*/
-            if(!player02.collisions) objectsToCollisionArray(player02);
-            player02.main(
-                delta, 
-                keys, 
-                zombie.object //Objetivos a disparar con el arma
-            );
-
-            if( !zombie.collisions ) objectsToCollisionArray(zombie);
-            zombie.main(
-                players, //Jugador a seguir.
-                delta
-            );
-
-            barrier.main();
 
             
-            renderer.render(scene, camera);
 
         }   
         
@@ -365,7 +377,7 @@ function load(path, buffer, anim, initializeObject) {
 
         if (initializeObject) initializeObject(object);
 
-        objectsLoaded++;
+        //objectsLoaded++;
     });
 }
 
