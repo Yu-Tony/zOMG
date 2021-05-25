@@ -213,23 +213,16 @@ function loadGame(){
             barrier.object.name = "barrier";
             barrier.initializeValues(scene);
 
-            objectsLoaded++;
-        })
-
-        numberOfObjects++;
-        escenario = new Escenario();
-        load('/zOMG/Assets/Escenario/newStage.fbx', escenario, null, () => {
-            
-            escenario.object.scale.y=.004
-            escenario.object.scale.z=.004
-            escenario.object.scale.x=.004
-            escenario.object.position.z = 40
+    numberOfObjects++;
+    escenario = new Escenario();
+    load('/zOMG/Assets/Escenario/newStage2.fbx', escenario, null, () => {
             escenario.object.position.x = 1
-
+            escenario.object.position.z = 40
+            escenario.object.scale.x=.004
+            escenario.object.scale.z=.004
+            escenario.object.scale.y=.004
             objectsLoaded++;
-
         })
-
         
 
         render();
