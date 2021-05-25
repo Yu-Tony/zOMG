@@ -154,8 +154,12 @@ $(document).ready(function () {
 
     numberOfObjects++;
     barrier = new Barrier()
-    load('/zOMG/Assets/Barrier/barrier.fbx', barrier, null, () => {
+    load('/zOMG/Assets/Barrier/newBarrier.fbx', barrier, null, () => {
         barrier.object.position.z = 0;
+         barrier.object.scale.y=.009
+        barrier.object.scale.z=.009
+     barrier.object.scale.x=.009
+     barrier.object.rotateY(THREE.Math.degToRad(90));
         barrier.updateBBox(-5, 0);
         barrier.object.name = "barrier";
         barrier.initializeValues(scene);
