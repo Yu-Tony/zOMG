@@ -12,8 +12,9 @@ class Player extends FBX{
         this.raycast = new THREE.Raycaster();
         this.anim = 0;
         this.score = 0;
-        this.life = 100;
-        this.tagsCollision = ["zombie", "barrier"]
+        //this.life = 100;
+        this.tagsCollision = ["zombie", "barrier"];
+        this.gunDmg = 10;
     }
 
     main(delta, keys, tarjets){
@@ -175,9 +176,36 @@ class Player extends FBX{
         this.anim = 3;
     }
 
-    initializeValues(){
-        
+    initializeValues(scene){
+        let scope = this;
+
         this.score= 50;
+        this.object.life = 100;
+
+        this.revive = function(){
+            this.disponible();
+            this.object.life = 100;
+            scene.add(this.object);
+        }
+
+        this.object.die = function(){
+            scene.remove(this);
+            scope.noDisponible();
+        }
+
+        this.object.damage = function(dmg){
+            if( this.life < 0 ) this.life = 0;
+
+            if( this.life > 0 ) this.life -= dmg;
+
+            if( this.life == 0 ) {this.die()};
+
+            scope.updateLifeUI(this.life);
+            
+            //console.log(this.life);
+        }
+
+
     }
 
     shot(tarjets){
@@ -201,7 +229,7 @@ class Player extends FBX{
         if(colision.length > 0){
             //console.log("zombie shotted");
            // debugger;
-            colision[0].object.parent.damage(10);
+            colision[0].object.parent.damage(this.gunDmg);
         }
     }
 
@@ -216,11 +244,10 @@ class Player extends FBX{
         $("#scoreText").text( this.score);
     }
 
-    lowerHealth()
+    updateLifeUI(life)
     {
-        let health = document.getElementById("health")
-        this.life -=10;
-        health.value = this.life;
+        let health = document.getElementById("health");
+        health.value = life;
     
     }
 

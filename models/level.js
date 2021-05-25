@@ -11,6 +11,8 @@ class Level{
         this.cameraPos = cameraPos;
         this.zombieKilled = 0;
 
+        
+
         this.zombieDieEvent = function (){
             this.zombieKilled++;
         }

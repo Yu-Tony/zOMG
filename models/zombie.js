@@ -5,10 +5,12 @@ import * as THREE from '/zOMG/js/libs/threeJS/three.module.js';
 class Zombie extends FBX{
     constructor(){
         super();
-        this.forward = 0.5;
+        this.forward = 0.0;
         this.yaw = 0;
         this.anim = 0
         this.tagsCollision = ["player", "barrier"];
+        this.dmgToPlayer = 1;
+        this.dmgToBarrier = 10;
     }
 
     main(players, delta){
@@ -44,12 +46,15 @@ class Zombie extends FBX{
     }
 
     follow(player, delta){
-        var vP = player.object.position;
+        if(player.object.life > 0 ){
+            var vP = player.object.position;
 
-        this.object.lookAt(vP);
-        this.object.translateZ(this.forward * delta);
-
-        this.updateBBox();
+            this.object.lookAt(vP);
+            this.object.translateZ(this.forward * delta);
+    
+            this.updateBBox();
+        }
+        
 
         //this.collision(player);
 
@@ -66,14 +71,20 @@ class Zombie extends FBX{
                     case "barrier":
                         //console.log("Atacar barrera");
                         this.object.translateZ((-this.forward) * delta);
-                        col[i].damage(1);
+                        col[i].damage(this.dmgToBarrier);
                         //debugger;
                         break;
 
                     case "player":
                         //console.log("Atacar jugador");
                         this.object.translateZ((-this.forward) * delta);
+                        col[i].damage(this.dmgToPlayer);
                         break;
+
+                    case "zombie":
+                    //console.log("Atacar jugador");
+                    this.object.translateZ((-this.forward) * delta);
+                    break;
                 
                     default:
                         break;

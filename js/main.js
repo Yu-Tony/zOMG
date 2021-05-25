@@ -16,17 +16,16 @@ var keys = {};
 var raycaster;
 var mouse;
 var grid;
-var player01;
-var player02;
 var players = [];
 var zombies = [];
-var spawns = [];
-var levels = [];
+var spawns;
 var zombiesClass=[];
 var barrier;
 var escenario;
 var game;
 var globalLevel;
+var camPosPerLevel = [];
+var loading;
 
 
 var zombiesInLevel = false;
@@ -48,7 +47,8 @@ function onWindowResize() {
 }
 
 function loadGame(){
-    if ($('.pantalla').css('visibility') == 'visible'){
+    if ($('.pantalla').css('visibility') == 'visible')
+    {
 
         var tamañoDelCanvas = {
             width: window.innerWidth/1.5,
@@ -133,11 +133,36 @@ function loadGame(){
 
         game = new Game();
 
+        //----------------- POSICION DE LA CAMARA POR NIVEL -------------------------//
+        
+        camPosPerLevel.push(new THREE.Vector3(0,9,7));
+        camPosPerLevel.push(new THREE.Vector3(0,9,42));
+        camPosPerLevel.push(new THREE.Vector3(0,9,89));
+
+
         //----------------- SPAWNS LEVEL 01 -------------------------//
         
-        spawns.push(new THREE.Vector3(0,0,20.3));
+        spawns = [
+            [
+                new THREE.Vector3(0,0,20.3),
+                new THREE.Vector3(-2.5,0,8.3),
+                new THREE.Vector3(2.5,0,13.3)
+            ],
+            [
+                new THREE.Vector3(4,0,67),
+                new THREE.Vector3(1.5,0,65),
+                new THREE.Vector3(-2.81,0,64)
+            ],
+            [
+                new THREE.Vector3(3.9,0,119),
+                new THREE.Vector3(1.7,0,116),
+                new THREE.Vector3(-3.4,0,113)
+            ]
+        ];
+
+        /*spawns.push(new THREE.Vector3(0,0,20.3));
         spawns.push(new THREE.Vector3(-2.5,0,8.3));
-        spawns.push(new THREE.Vector3(2.5,0,13.3));
+        spawns.push(new THREE.Vector3(2.5,0,13.3));*/
 
         //----------------- ZOMBIES -------------------------//
         for (let i = 0; i < 5; i++) {
@@ -151,6 +176,8 @@ function loadGame(){
                 zombiesClass[i].object.die()
                 objectsLoaded++;
 
+                loading.attr('value', objectsLoaded);
+
             });     
         }
         
@@ -160,12 +187,15 @@ function loadGame(){
             let player = new Player(0);          
             numberOfObjects++;
             load('/zOMG/Assets/Player/playerAnim.fbx', player, player.anim, ()=>{
-                player.object.life = player.life;
+                //player.object.life = player.life;
                 player.object.name = "player";
                 player.object.position.z = -3;
+                player.initializeValues(scene);
                 players.push(player);
         
                 objectsLoaded++;
+
+                loading.attr('value', objectsLoaded);
             });
         }
         else if( $('#scene-section').hasClass('Multi-Mode') ){
@@ -174,12 +204,16 @@ function loadGame(){
                 let player = new Player(i);          
                 numberOfObjects++;
                 load('/zOMG/Assets/Player/playerAnim.fbx', player, player.anim, ()=>{
-                    player.object.life = player.life;
+                    //player.object.life = player.life;
                     player.object.name = "player";
                     player.object.position.z = -3;
+                    player.initializeValues(scene);
                     players.push(player);
+                    
             
                     objectsLoaded++;
+
+                    loading.attr('value', objectsLoaded);
                 });
             }
         }
@@ -212,19 +246,24 @@ function loadGame(){
             barrier.updateBBox(-5, 0);
             barrier.object.name = "barrier";
             barrier.initializeValues(scene);
+            objectsLoaded++;
 
-    numberOfObjects++;
-    escenario = new Escenario();
-    load('/zOMG/Assets/Escenario/newStage2.fbx', escenario, null, () => {
+            loading.attr('value', objectsLoaded);
+        });
+
+        /*numberOfObjects++;
+        escenario = new Escenario();
+        load('/zOMG/Assets/Escenario/newStage2.fbx', escenario, null, () => {
             escenario.object.position.x = 1
             escenario.object.position.z = 40
             escenario.object.scale.x=.004
             escenario.object.scale.z=.004
             escenario.object.scale.y=.004
             objectsLoaded++;
-        })
-        
 
+            loading.attr('value', objectsLoaded);
+        });*/
+        loading.attr('max', numberOfObjects);
         render();
     }
 }
@@ -232,22 +271,28 @@ function loadGame(){
 $(document).ready(function () {
 
     $('#scene-section').on('visible', loadGame);
+    loading = $('#loading');
 
 })
+
+function reviveAllDeath(){
+    players.forEach(player =>{
+        if(player.object.life == 0){
+            player.revive();
+        }
+    })
+}
 
 function render() {
 
     if (keys["T"]) {
-        scene.getObjectByName("amb").intensity += 0.01; 
+        reviveAllDeath()
     } else if (keys["G"]) {
-        scene.getObjectByName("amb").intensity -= 0.01;
+
     }
     if (keys["Y"]) {
-        //scene.getObjectByName("dir").intensity += 0.01; 
-        scene.getObjectByName("dir2").intensity += 0.01; 
     } else if (keys["H"]) {
-        //scene.getObjectByName("dir").intensity -= 0.01;
-        scene.getObjectByName("dir2").intensity -= 0.01;
+
     }
 
     requestAnimationFrame(render);
@@ -255,13 +300,14 @@ function render() {
    
         if( objectsLoaded == numberOfObjects ){
             
+            loading.hide();
             if(!zombiesInLevel){
                 for (let i = 0; i < 5; i++) {
                     zombies.push(zombiesClass[i].object);
                     //scene.add(zombies[i]);    
                 }
 
-                globalLevel = new Level(game.actualLevel ,spawns, zombies, new THREE.Vector3(0,9,-7));
+                globalLevel = new Level(game.actualLevel ,spawns[game.actualLevel - 1 ], zombies, new THREE.Vector3(0,9,-7));
                 /*levels.push(level01);
 
                 var level02 = new Level(1,spawns, zombies, new THREE.Vector3(0,9,0));
@@ -319,13 +365,21 @@ function render() {
                     if(!globalLevel.isOver())
                         game.startingLevel(globalLevel, camera, delta);
                     else{
-                        game.actualLevel ++;
-                        globalLevel = new Level(game.actualLevel ,spawns, zombies, new THREE.Vector3(0,9,0));
+                        if( game.actualLevel < 3 ){
+                            game.actualLevel ++;
+                            globalLevel = new Level(game.actualLevel, 
+                                spawns[game.actualLevel - 1 ], 
+                                zombies, 
+                                camPosPerLevel[game.actualLevel - 1]
+                            );
+                        }
+                        else{
+                            alert("Ganaste");
+                            //Poner score;
+                        }
 
                     }
                 }
-                    
-
                 renderer.render(scene, camera);
             }
             
@@ -333,7 +387,10 @@ function render() {
 
             
 
-        }   
+        }
+        else{
+            
+        } 
         
     }
 
@@ -407,7 +464,6 @@ function load(path, buffer, anim, initializeObject) {
         if (Number.isInteger(anim)) buffer.playAnimation(anim);
 
         if (initializeObject) initializeObject(object);
-
         //objectsLoaded++;
     });
 }

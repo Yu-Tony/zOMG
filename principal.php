@@ -79,7 +79,8 @@
 
 
 
-      <progress class="bg-success" id="health" value="100" max="100" style="width:100%"></progress>
+    <progress class="bg-success" id="loading" value="0" style="width:100%"></progress>
+    <progress class="bg-success" id="health" value="100" max="100" style="width:100%"></progress>
  
 
       <div id="scene-section"></div>
