@@ -51,21 +51,7 @@
   </style>
 
   <script>
-    $(document).ready(function () {
-
-
-      $("#includedContent").load("MenuPrincipal.html");
-
-      $('.pantalla').css('visibility', 'hidden');
-
-   play();
-
-
-    });
-
-
-
-
+    
   </script>
 </head>
 
@@ -106,7 +92,7 @@
 
 
 
-  <audio id="audio" src="rth/zOMG/Assets/Forgotten.mp3"></audio>
+  <audio id="audio" src="quitaresto/zOMG/Assets/Forgotten.mp3"></audio>
 </body>
 
 </html>

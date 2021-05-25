@@ -29,7 +29,7 @@ class Zombie extends FBX{
         var playerIndex = [];
 
         for (let i = 0; i < players.length; i++) {
-            distance[i] = this.object.position.distanceTo(players[i].position);
+            distance[i] = this.object.position.distanceTo(players[i].object.position);
             playerIndex[i] = distance[i];
         }
 
@@ -44,7 +44,7 @@ class Zombie extends FBX{
     }
 
     follow(player, delta){
-        var vP = player.position;
+        var vP = player.object.position;
 
         this.object.lookAt(vP);
         this.object.translateZ(this.forward * delta);

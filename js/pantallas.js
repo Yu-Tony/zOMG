@@ -1,6 +1,23 @@
+//import * as Main from '/zOMG/js/main.js';
+
+$.getScript('/zOMG/js/facebook.js').done(function(){
+    
+});
 
 
-$.getScript('/zOMG/js/facebook.js');
+
+
+$(document).ready(function () {
+
+
+    $("#includedContent").load("MenuPrincipal.html");
+
+    $('.pantalla').css('visibility', 'hidden');
+
+    play();
+
+
+  });
 
 /* MUSICA */
 function play() {
@@ -82,8 +99,11 @@ function ShowSolo()
     $("#PJ").show();
     $("#IncludePause").hide(); 
     $('.pantalla').css('visibility', 'visible');
+    $(".pantalla #scene-section").addClass('Solo-Mode');
     var audio = $('#audio')[0];
     audio.pause();
+
+    $('#scene-section').trigger("visible");
     
 }
 
@@ -94,10 +114,11 @@ function ShowMulti()
     $("#PJ").show();
     $("#IncludePause").hide(); 
     $('.pantalla').css('visibility', 'visible');
+    $(".pantalla #scene-section").addClass('Multi-Mode');
     var audio = $('#audio')[0];
     audio.pause();
     
-
+    $('#scene-section').trigger("visible");
 }
 
 function ShowPause()

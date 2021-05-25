@@ -1,5 +1,4 @@
 import * as THREE from '/zOMG/js/libs/threeJS/three.module.js';
-import { SkeletonUtils } from '/zOMG/js/libs/threeJS/SkeletonUtils.js';
 import { Player } from '/zOMG/models/player.js';
 import { Level } from '/zOMG/models/level.js';
 import { Game } from '/zOMG/models/game.js';
@@ -48,169 +47,199 @@ function onWindowResize() {
 
 }
 
-$(document).ready(function () {
-    var tamañoDelCanvas = {
-        width: window.innerWidth/1.5,
-        height: window.innerHeight/1.5
-    }
-    //Inicializamos el renderer
-    renderer = new THREE.WebGLRenderer();
-    renderer.setSize(tamañoDelCanvas.width, tamañoDelCanvas.height);
-    renderer.setClearColor(new THREE.Color(0.7, 0.7, 1));
+function loadGame(){
+    if ($('.pantalla').css('visibility') == 'visible'){
 
-    //Inicializamos la camara
-    var tarjet = new THREE.Vector3(0,-5,5);
-    camera = new THREE.PerspectiveCamera(
-        75, //Field Of View.
-        tamañoDelCanvas.width / tamañoDelCanvas.height, //Relacion de aspecto.
-        0.1, //Near - Que tan cerca debe estar un objeto para ser dibujado.
-        1000 //Far - Que tan lejos puede estar un objeto para ser dibujado.
-    );
-    camera.position.x = 0;
-    camera.position.y = 2;
-    camera.position.z = -13;
-    camera.lookAt(tarjet);
-
-    //Inicializamos la escena
-    scene = new THREE.Scene();
-
-    // Load the Orbitcontroller
-    /*var controls = new OrbitControls( camera, renderer.domElement ); 
-    controls.target.set( 0, 10, 0 );
-    controls.update();*/
-
-
-    //------ILUMINACION------//
-    var luzAmbiental = new THREE.AmbientLight(
-        new THREE.Color(1, 1, 1),
-        0.45 //Intensidad
-    );
-    luzAmbiental.name = "amb";
-
-    var luzDireccional = new THREE.DirectionalLight(
-        new THREE.Color(0.7, 0.5, 0.5),
-        0.4 //Intensidad
-    );
-    luzDireccional.name = "dir";
-    luzDireccional.position.set(1, 1, 0);
-
-    var luzDireccional2 = new THREE.DirectionalLight(
-        new THREE.Color(0.2, 0.2, 0.4),
-        0.3 //Intensidad
-    );
-    luzDireccional2.name = "dir2";
-    luzDireccional2.position.set(-1, 1, -1);
-
-    scene.add(luzAmbiental);
-    scene.add(luzDireccional);
-    scene.add(luzDireccional2);
-
-    grid = new THREE.GridHelper(50, 10, 0x000000, 0x000000);
-    grid.position.y = -1;
-    scene.add(grid);
-
-    mouse = new THREE.Vector2();
-    raycaster = new THREE.Raycaster();
-
-    //Le indicamos a ThreeJS donde queremos el canvas.
-    $("#scene-section").append(renderer.domElement);
-
-    //Eventos del teclado.
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('keyup', onKeyUp);
-
-    //Evitar que la pagina haga scroll con la flechas.
-    window.addEventListener("keydown", function (e) {
-        if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
-            e.preventDefault();
+        var tamañoDelCanvas = {
+            width: window.innerWidth/1.5,
+            height: window.innerHeight/1.5
         }
-    }, false);
-    //document.addEventListener('mousemove', onDocumentMouseMove,false)
+        //Inicializamos el renderer
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(tamañoDelCanvas.width, tamañoDelCanvas.height);
+        renderer.setClearColor(new THREE.Color(0.7, 0.7, 1));
 
-    loader = new FBXLoader()
+        //Inicializamos la camara
+        var tarjet = new THREE.Vector3(0,-5,5);
+        camera = new THREE.PerspectiveCamera(
+            75, //Field Of View.
+            tamañoDelCanvas.width / tamañoDelCanvas.height, //Relacion de aspecto.
+            0.1, //Near - Que tan cerca debe estar un objeto para ser dibujado.
+            1000 //Far - Que tan lejos puede estar un objeto para ser dibujado.
+        );
+        camera.position.x = 0;
+        camera.position.y = 2;
+        camera.position.z = -13;
+        camera.lookAt(tarjet);
 
-    game = new Game();
+        //Inicializamos la escena
+        scene = new THREE.Scene();
 
-    //----------------- SPAWNS LEVEL 01 -------------------------//
-    
-    spawns.push(new THREE.Vector3(0,0,20.3));
-    spawns.push(new THREE.Vector3(-2.5,0,8.3));
-    spawns.push(new THREE.Vector3(2.5,0,13.3));
+        // Load the Orbitcontroller
+        /*var controls = new OrbitControls( camera, renderer.domElement ); 
+        controls.target.set( 0, 10, 0 );
+        controls.update();*/
 
-    //----------------- ZOMBIES -------------------------//
-    for (let i = 0; i < 5; i++) {
+
+        //------ILUMINACION------//
+        var luzAmbiental = new THREE.AmbientLight(
+            new THREE.Color(1, 1, 1),
+            0.45 //Intensidad
+        );
+        luzAmbiental.name = "amb";
+
+        var luzDireccional = new THREE.DirectionalLight(
+            new THREE.Color(0.7, 0.5, 0.5),
+            0.4 //Intensidad
+        );
+        luzDireccional.name = "dir";
+        luzDireccional.position.set(1, 1, 0);
+
+        var luzDireccional2 = new THREE.DirectionalLight(
+            new THREE.Color(0.2, 0.2, 0.4),
+            0.3 //Intensidad
+        );
+        luzDireccional2.name = "dir2";
+        luzDireccional2.position.set(-1, 1, -1);
+
+        scene.add(luzAmbiental);
+        scene.add(luzDireccional);
+        scene.add(luzDireccional2);
+
+        grid = new THREE.GridHelper(50, 10, 0x000000, 0x000000);
+        grid.position.y = -1;
+        scene.add(grid);
+
+        mouse = new THREE.Vector2();
+        raycaster = new THREE.Raycaster();
+
+        //Le indicamos a ThreeJS donde queremos el canvas.
+        $("#scene-section").append(renderer.domElement);
+
+
+        //Eventos del teclado.
+        document.addEventListener('keydown', onKeyDown);
+        document.addEventListener('keyup', onKeyUp);
+
+        //Evitar que la pagina haga scroll con la flechas.
+        window.addEventListener("keydown", function (e) {
+            if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
+                e.preventDefault();
+            }
+        }, false);
+        //document.addEventListener('mousemove', onDocumentMouseMove,false)
+
+        loader = new FBXLoader()
+
+        game = new Game();
+
+        //----------------- SPAWNS LEVEL 01 -------------------------//
+        
+        spawns.push(new THREE.Vector3(0,0,20.3));
+        spawns.push(new THREE.Vector3(-2.5,0,8.3));
+        spawns.push(new THREE.Vector3(2.5,0,13.3));
+
+        //----------------- ZOMBIES -------------------------//
+        for (let i = 0; i < 5; i++) {
+            numberOfObjects++;
+            zombiesClass.push (new Zombie());
+            load('/zOMG/Assets/Zombie/zombie.fbx', zombiesClass[i], zombiesClass[i].anim, () => {
+                zombiesClass[i].object.position.z = 4;
+                //zombie.updateBBox(5, 0);
+                zombiesClass[i].object.name="zombie";
+                zombiesClass[i].initializeValues(scene);
+                zombiesClass[i].object.die()
+                objectsLoaded++;
+
+            });     
+        }
+        
+        
+        //----------------- PLAYERS -------------------------//
+        if( $('#scene-section').hasClass('Solo-Mode') ){
+            let player = new Player(0);          
+            numberOfObjects++;
+            load('/zOMG/Assets/Player/playerAnim.fbx', player, player.anim, ()=>{
+                player.object.life = player.life;
+                player.object.name = "player";
+                player.object.position.z = -3;
+                players.push(player);
+        
+                objectsLoaded++;
+            });
+        }
+        else if( $('#scene-section').hasClass('Multi-Mode') ){
+
+            for (let i = 0; i < 2; i++) {
+                let player = new Player(i);          
+                numberOfObjects++;
+                load('/zOMG/Assets/Player/playerAnim.fbx', player, player.anim, ()=>{
+                    player.object.life = player.life;
+                    player.object.name = "player";
+                    player.object.position.z = -3;
+                    players.push(player);
+            
+                    objectsLoaded++;
+                });
+            }
+        }
+
+        /*numberOfObjects++;
+        player01 = new Player(0);
         numberOfObjects++;
-        zombiesClass.push (new Zombie());
-        load('/zOMG/Assets/Zombie/zombie.fbx', zombiesClass[i], zombiesClass[i].anim, () => {
-            zombiesClass[i].object.position.z = 4;
-            //zombie.updateBBox(5, 0);
-            zombiesClass[i].object.name="zombie";
-            zombiesClass[i].initializeValues(scene);
-            zombiesClass[i].object.die()
+        player02 = new Player(1);
+
+        load('/zOMG/Assets/Player/playerAnim.fbx', player01, player01.anim, ()=>{
+            player01.object.life = player01.life;
+            player01.object.name = "player";
+            player01.object.position.z = -3;
+            players.push(player01.object);
+
+            objectsLoaded++;
+        });
+        load('/zOMG/Assets/Player/playerAnim.fbx', player02, player02.anim, ()=>{
+            player02.object.name = "player";
+            player02.object.position.z = -5;
+            players.push(player02.object);
+
+            objectsLoaded++;
+        });*/
+
+        numberOfObjects++;
+        barrier = new Barrier()
+        load('/zOMG/Assets/Barrier/barrier.fbx', barrier, null, () => {
+            barrier.object.position.z = 0;
+            barrier.updateBBox(-5, 0);
+            barrier.object.name = "barrier";
+            barrier.initializeValues(scene);
+
+            objectsLoaded++;
+        })
+
+        numberOfObjects++;
+        escenario = new Escenario();
+        load('/zOMG/Assets/Escenario/newStage.fbx', escenario, null, () => {
+            
+            escenario.object.scale.y=.004
+            escenario.object.scale.z=.004
+            escenario.object.scale.x=.004
+            escenario.object.position.z = 40
+            escenario.object.position.x = 1
+
             objectsLoaded++;
 
-        });     
-    }
-    
-    
+        })
 
-    numberOfObjects++;
-    player01 = new Player(0);
-    numberOfObjects++;
-    player02 = new Player(1);
-    /* load('../Assets/Player/player.fbx', player01, null, (object)=> {
-
-        var clone = object.clone();
-        player02.object = clone;
-        getMixer(player02);
-        player02.isLoaded = true;
-        scene.add(player02.object);
-    });*/
-
-    load('/zOMG/Assets/Player/playerAnim.fbx', player01, player01.anim, ()=>{
-        player01.object.life = player01.life;
-        player01.object.name = "player";
-        player01.object.position.z = -3;
-        players.push(player01.object);
-
-        objectsLoaded++;
-    });
-    load('/zOMG/Assets/Player/playerAnim.fbx', player02, player02.anim, ()=>{
-        player02.object.name = "player";
-        player02.object.position.z = -5;
-        players.push(player02.object);
-
-        objectsLoaded++;
-    });
-
-    numberOfObjects++;
-    barrier = new Barrier()
-    load('/zOMG/Assets/Barrier/barrier.fbx', barrier, null, () => {
-        barrier.object.position.z = 0;
-        barrier.updateBBox(-5, 0);
-        barrier.object.name = "barrier";
-        barrier.initializeValues(scene);
-
-        objectsLoaded++;
-    })
-
-    numberOfObjects++;
-    escenario = new Escenario();
-    load('/zOMG/Assets/Escenario/newStage.fbx', escenario, null, () => {
         
-        escenario.object.scale.y=.004
-        escenario.object.scale.z=.004
-        escenario.object.scale.x=.004
-        escenario.object.position.z = 40
-        escenario.object.position.x = 1
 
-        objectsLoaded++;
+        render();
+    }
+}
 
-    })
+$(document).ready(function () {
 
-    
+    $('#scene-section').on('visible', loadGame);
 
-    render();
 })
 
 function render() {
@@ -256,8 +285,17 @@ function render() {
             {
                 const delta = clock.getDelta();
                 timer += delta;
+
+                players.forEach(player =>{
+                    if(!player.collisions) objectsToCollisionArray(player);
+                    player.main(
+                        delta, 
+                        keys, 
+                        zombies //Objetivos a disparar con el arma
+                    );
+                });
             
-                if(!player01.collisions) objectsToCollisionArray(player01);
+                /*if(!player01.collisions) objectsToCollisionArray(player01);
                 player01.main(
                     delta, 
                     keys, 
@@ -269,7 +307,7 @@ function render() {
                     delta, 
                     keys, 
                     zombies //Objetivos a disparar con el arma
-                );
+                );*/
 
 
                 zombiesClass.forEach(zombie => {
