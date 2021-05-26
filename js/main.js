@@ -345,9 +345,9 @@ function reviveAllDeath(){
 }
 
 function removeBarriersOfLevel(level){
-    barriers[level].noDisponible();
-    barriers[level + 1].noDisponible();
-    barriers[level + 2].noDisponible();
+    barriers[(level *3)].noDisponible();
+    barriers[(level*3) + 1].noDisponible();
+    barriers[(level*3) + 2].noDisponible();
 }
 
 function render() {
@@ -446,7 +446,7 @@ function render() {
                     barrier.main();
                 });
 
-                if(delta < 1){
+                if(/*delta < 1*/true){
                     if(!globalLevel.isOver()){
                         if(!game.gameOver()){
                             game.startingLevel(globalLevel, camera, delta);

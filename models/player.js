@@ -18,6 +18,8 @@ class Player extends FBX{
 
         this.score = 0;
         this.scoreFinal = this.score;
+
+        this.shoting = false;
     }
 
     main(delta, keys, tarjets){
@@ -97,8 +99,15 @@ class Player extends FBX{
 
 
         if(keys["X"]){
-            this.shot(tarjets);
-            this.anim = 0;
+            if(!this.shoting){
+                this.shot(tarjets);
+                this.anim = 0;
+                this.shoting = true;
+            }
+           
+        }
+        else{
+            this.shoting = false;
         }
 
         if (keys["A"]&& keys["X"])
@@ -151,8 +160,14 @@ class Player extends FBX{
 
 
         if(keys["M"]){
-            this.shot(tarjets);
-            this.anim = 0;
+            if(!this.shoting){
+                this.shot(tarjets);
+                this.anim = 0;
+                this.shoting = true;
+            }
+        }
+        else{
+            this.shoting = false;
         }
 
         if (keys["J"]&& keys["M"])
