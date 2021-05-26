@@ -50,6 +50,7 @@ class Zombie extends FBX{
         this.object.BBox.setFromCenterAndSize(this.object.position, new THREE.Vector3(0.5,0.5,0.5));
     }*/
 
+
     mostNearPlayer(players){
         var distance = [];
         var playerIndex = [];
@@ -128,6 +129,10 @@ class Zombie extends FBX{
 
         //this.object.add(this.bloodParticles.system);
         this.bloodParticles.system.position.y = 1;
+
+        this.object.setLifeByLevel = function(level){
+            this.life = this.life * level;
+        }
 
         this.object.die = function(){
             //debugger;

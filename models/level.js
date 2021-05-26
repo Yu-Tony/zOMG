@@ -5,7 +5,7 @@ class Level{
         this.number = number;
         this.spawns = spawns;
         this.zombies = zombies;
-        this.batchs = 1;
+        this.batchs = number;
         this.totalZ = zombies.length * this.batchs;
         this.lastZombieSpawned = 0;
         this.cameraPos = cameraPos;
@@ -45,7 +45,7 @@ class Level{
                 );
     
                 this.zombies[ toSpawn ].revive();
-        
+                this.zombies[ toSpawn ].setLifeByLevel( this.number );
                 this.lastZombieSpawned++;
             }
             
