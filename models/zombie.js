@@ -1,5 +1,7 @@
 import {FBX} from '/zOMG/models/FBX.js'
 import { Player } from '/zOMG/models/player.js';
+import { Particles } from '/zOMG/models/particles.js';
+import { Timer } from "/zOMG/models/timer.js";
 import * as THREE from '/zOMG/js/libs/threeJS/three.module.js';
 
 class Zombie extends FBX{
@@ -10,7 +12,9 @@ class Zombie extends FBX{
         this.anim = 0
         this.tagsCollision = ["player", "barrier"];
         this.dmgToPlayer = 1;
-        this.dmgToBarrier = 10;
+        this.dmgToBarrier = 1;
+        this.bloodParticles = new Particles(10, 0xFF0000, 0.1, 0.5);
+        this.bloodTimer = new Timer(0.03);
     }
 
     main(players, delta){
@@ -24,7 +28,27 @@ class Zombie extends FBX{
             this.objToCollision,
             delta
         );
+
+
+
+        if(this.bloodParticles.playing)
+        {
+            if( this.bloodTimer.execute(delta) )
+            {
+                this.bloodParticles.playing = false;
+                this.bloodParticles.reset();
+                this.object.remove(this.bloodParticles.system);
+            }
+            else
+            {
+                this.bloodParticles.explode(delta);
+            }
+        }
     }
+
+    /*updateBBox(){
+        this.object.BBox.setFromCenterAndSize(this.object.position, new THREE.Vector3(0.5,0.5,0.5));
+    }*/
 
     mostNearPlayer(players){
         var distance = [];
@@ -100,8 +124,10 @@ class Zombie extends FBX{
     initializeValues(scene){
         let scope = this;
         this.object.life = 100;
+        //this.object.blood = new Particles(10, 0xFF0000, 0.2);
 
-        //this.object.dieEvent = null;
+        //this.object.add(this.bloodParticles.system);
+        this.bloodParticles.system.position.y = 1;
 
         this.object.die = function(){
             //debugger;
@@ -130,7 +156,10 @@ class Zombie extends FBX{
 
             if( this.life == 0 ) this.die();
             
-            console.log(this.life);
+            scope.bloodParticles.playing = true;
+            this.add(scope.bloodParticles.system);
+            /*scope.bloodParticles.reset();*/
+            //console.log(this.life);
         }
     }
 

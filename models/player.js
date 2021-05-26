@@ -15,6 +15,9 @@ class Player extends FBX{
         //this.life = 100;
         this.tagsCollision = ["zombie", "barrier"];
         this.gunDmg = 10;
+
+        this.score = 0;
+        this.scoreFinal = this.score;
     }
 
     main(delta, keys, tarjets){
@@ -32,6 +35,10 @@ class Player extends FBX{
             this.objToCollision,
             delta
         )
+    }
+
+    incGunDmg(){
+        this.gunDmg += 5;
     }
 
     detectCollisions(col, delta){
@@ -179,18 +186,30 @@ class Player extends FBX{
     initializeValues(scene){
         let scope = this;
 
-        this.score= 50;
+        
         this.object.life = 100;
 
         this.revive = function(){
             this.disponible();
             this.object.life = 100;
             scene.add(this.object);
+
+            this.updateLifeUI(this.object.life);
+        }
+
+        this.heal = function(){
+            let left = 100 - this.object.life;
+
+
+            this.object.life += (left * 0.8);
+            this.updateLifeUI(this.object.life);
         }
 
         this.object.die = function(){
             scene.remove(this);
             scope.noDisponible();
+
+            this.dispatchEvent({ type: "die"});
         }
 
         this.object.damage = function(dmg){
@@ -230,7 +249,24 @@ class Player extends FBX{
             //console.log("zombie shotted");
            // debugger;
             colision[0].object.parent.damage(this.gunDmg);
+
+            //this.object.score += 100;
+
+            this.incScore(100);
         }
+    }
+
+    incScore(value){
+        this.score += value;
+        this.scoreFinal += value;
+    }
+
+    useScore(value){
+        if(this.score > value){
+            this.score -= value;
+            return true;
+        }
+        return false;
     }
 
     showScore()
@@ -241,12 +277,20 @@ class Player extends FBX{
         $("#PJ").hide();
         $("#IncludeGameOver").show(); 
         $("#MPause").show(); 
-        $("#scoreText").text( this.score);
+        $("#scoreText").text( this.scoreFinal );
     }
 
     updateLifeUI(life)
     {
-        let health = document.getElementById("health");
+        let health;
+        if(this.playerNum == 0){
+            health = document.getElementById("health");
+        }
+        else if(this.playerNum == 1){
+            //Obtener la barra del otro jugador.
+        }
+
+        
         health.value = life;
     
     }
