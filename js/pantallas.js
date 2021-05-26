@@ -156,7 +156,14 @@ function ShowConfigGame()
 
 }
 
+function hideScore()
+{
+   
+    $("#IncludeGameOver").hide(); 
+    $("#IncludeWin").hide(); 
+ 
 
+}
 
 /*function ShowGameOver()
 {

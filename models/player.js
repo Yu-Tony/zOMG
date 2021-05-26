@@ -284,7 +284,7 @@ class Player extends FBX{
         return false;
     }
 
-    showScore()
+    showScoreGO()
     {
       
         $("#scoreText").empty();
@@ -293,6 +293,17 @@ class Player extends FBX{
         $("#IncludeGameOver").show(); 
         $("#MPause").show(); 
         $("#scoreText").text( this.scoreFinal );
+    }
+
+    showScoreWin()
+    {
+      
+        $("#scoreTextWin").empty();
+        $('.pantalla').css('visibility', 'hidden');
+        $("#PJ").hide();
+        $("#IncludeWin").show(); 
+        $("#MPause").show(); 
+        $("#scoreTextWin").text( this.scoreFinal );
     }
 
     updateLifeUI(life)

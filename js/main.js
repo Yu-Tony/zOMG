@@ -44,6 +44,8 @@ var vecPlayerMouse;
 var HPU=false;
 var DPU=false;
 
+var pantallaGO = false;
+
 window.addEventListener('resize', onWindowResize);
 
 function onWindowResize() {
@@ -452,7 +454,13 @@ function render() {
                             game.startingLevel(globalLevel, camera, delta);
                         }
                         else{
-                            alert("Perdiste");
+                            if(!pantallaGO)
+                            {
+                                players[0].showScoreGO()
+                                pantallaGO = true;
+                            }
+                           
+                            //alert("Perdiste");
                         }
                     }
                     else{
@@ -466,7 +474,12 @@ function render() {
                             );
                         }
                         else{
-                            alert("Ganaste");
+                            if(!pantallaGO)
+                            {
+                                players[0].showScoreGO()
+                                pantallaGO = true;
+                            }
+                            //alert("Ganaste");
                             //Poner score;
                         }
 

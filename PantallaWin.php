@@ -26,7 +26,7 @@
 
 					<div class="row" style="margin-top: 1%">
 						<div class="col-12 text-center">
-						  <img src="Imagenes/TextPerdiste.png" alt="" class="btnRegresar"/>
+						  <img src="Imagenes/TextGanaste.png" alt="" class="btnRegresar"/>
 						</div>
 					  </div>
 
@@ -34,7 +34,7 @@
 						<div class="col-12 text-center">
 							
 							<p class="text"> Puntuacion: </p>
-							<p class="text" id="scoreText">  </p>
+							<p class="text" id="scoreTextWin">  </p>
                             <button onclick="shareFB();">Compartir en Facebook</button>
 
 						</div>

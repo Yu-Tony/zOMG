@@ -21,7 +21,7 @@ window.fbAsyncInit = function() {
    function shareScore(score) {
     FB.ui({
       method: 'share', /* forma de abrir un dialogo para compartir, segun la documentacion de facebook */
-      href: 'https://google.com/',
+      href: 'https://z-omg.000webhostapp.com/',
       hashtag: "#zOMG",
       quote: "Mi puntuacion " + score
     }, function(response){});
