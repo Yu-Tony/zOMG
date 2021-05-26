@@ -31,50 +31,53 @@ session_start();
 					<div class="row" style="margin-top: 15%;">
 
 					<div class="col-12 text-center">
-					<?php
-						$sql = "select * 
-						from users 
-						order BY score DESC
-						LIMIT 5";
-						$result = mysqli_query($conn, $sql) or die("Error in Selecting " . mysqli_error($conn));
+						<?php
+							$sql = "select * 
+							from users 
+							order BY score DESC
+							LIMIT 5";
+							$result = mysqli_query($conn, $sql) or die("Error in Selecting " . mysqli_error($conn));
 
-						//create an array
-						$emparray = array();
-						while($row =mysqli_fetch_assoc($result))
-						{
-							$emparray[] = $row;
-						}
+						
+							$emparray = array();
+							while($row =mysqli_fetch_assoc($result))
+							{
+								$emparray[] = $row;
+							}
 
-						$arraysJSON = json_encode($emparray);
+							$arraysJSON = json_encode($emparray);
 
 
-						if ($arraysJSON === false) {
-							// deal with error...
-						}
-
-						$json_a = json_decode($arraysJSON, true);
-						if ($json_a === null) {
-							// deal with error...
-						}
-
-						                    
-						foreach ($json_a as $person_name => $person_a) {
-							$_UserName = $person_a['user'];
-							$_UserScore= $person_a['score'];
-		
-		   
-	
-							echo <<<EOL
-								
-							<div class="text">$_UserName ...... $_UserScore </div>
-
+							if ($arraysJSON === false) {
 							
-							EOL;
-						}
+							}
 
-					?>
+							$json_a = json_decode($arraysJSON, true);
+							if ($json_a === null) {
+							
+							}
+
+												
+							foreach ($json_a as $person_name => $person_a) {
+								$_UserName = $person_a['user'];
+								$_UserScore= $person_a['score'];
+			
+			
+		
+							/*	echo <<<EOL
+									
+								<div class="text">$_UserName ...... $_UserScore </div>
+
+								
+								EOL;*/
+								
+								 echo '<div class="text">'.$_UserName.' ...... '.$_UserScore.'</div>';
+						
+							}
+
+						?>
 				
-						</div>
+					</div>
 
 
 					</div>
@@ -105,7 +108,6 @@ session_start();
 	.Todo {
 		background-image: url(Imagenes/FondoLeader.png);
 	}
-
 
 
 </style>

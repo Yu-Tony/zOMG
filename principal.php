@@ -83,7 +83,23 @@
     <progress class="bg-success" id="health" value="100" max="100" style="width:100%"></progress>
  
 
-      <div id="scene-section"></div>
+      <div id="scene-section">
+
+        <a ref="javascript:void(0)" style="width: 100px; height: 100px; position: absolute; bottom: 0; right: 10px;" id="HealthPU">
+          <img src="Assets/HealthBtn.png" alt="" style="width: 100%; height: 100%" id="imgBTN"/>
+        </a>
+
+        <a ref="javascript:void(0)" style="width: 100px; height: 100px; position: absolute; bottom: 110px; right: 10px;" id="DamagePU">
+          <img src="Assets/PowerUp.png" alt="" style="width: 100%; height: 100%" id="imgBTN"/>
+        </a>
+
+        
+
+       
+      
+      </div>
+  
+
     </div>
 
     <div id="includedContent"></div>

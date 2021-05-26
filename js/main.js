@@ -37,8 +37,12 @@ var objectsLoaded = 0;
 var numberOfObjects = 0;
 var timer = 0;
 
+var Iniciar = false;
 
 var vecPlayerMouse;
+
+var HPU=false;
+var DPU=false;
 
 window.addEventListener('resize', onWindowResize);
 
@@ -53,258 +57,278 @@ function onWindowResize() {
 function loadGame(){
     if ($('.pantalla').css('visibility') == 'visible')
     {
-
-        var tamañoDelCanvas = {
-            width: window.innerWidth/1.5,
-            height: window.innerHeight/1.5
-        }
-        //Inicializamos el renderer
-        renderer = new THREE.WebGLRenderer();
-        renderer.setSize(tamañoDelCanvas.width, tamañoDelCanvas.height);
-        renderer.setClearColor(new THREE.Color(0.7, 0.7, 1));
-
-        //Inicializamos la camara
-        var tarjet = new THREE.Vector3(0,-5,5);
-        camera = new THREE.PerspectiveCamera(
-            75, //Field Of View.
-            tamañoDelCanvas.width / tamañoDelCanvas.height, //Relacion de aspecto.
-            0.1, //Near - Que tan cerca debe estar un objeto para ser dibujado.
-            1000 //Far - Que tan lejos puede estar un objeto para ser dibujado.
-        );
-        camera.position.x = 0;
-        camera.position.y = 2;
-        camera.position.z = -13;
-        camera.lookAt(tarjet);
-
-        //Inicializamos la escena
-        scene = new THREE.Scene();
-
-        // Load the Orbitcontroller
-        /*var controls = new OrbitControls( camera, renderer.domElement ); 
-        controls.target.set( 0, 10, 0 );
-        controls.update();*/
-
-
-        //------ILUMINACION------//
-        var luzAmbiental = new THREE.AmbientLight(
-            new THREE.Color(1, 1, 1),
-            0.45 //Intensidad
-        );
-        luzAmbiental.name = "amb";
-
-        var luzDireccional = new THREE.DirectionalLight(
-            new THREE.Color(0.7, 0.5, 0.5),
-            0.4 //Intensidad
-        );
-        luzDireccional.name = "dir";
-        luzDireccional.position.set(1, 1, 0);
-
-        var luzDireccional2 = new THREE.DirectionalLight(
-            new THREE.Color(0.2, 0.2, 0.4),
-            0.3 //Intensidad
-        );
-        luzDireccional2.name = "dir2";
-        luzDireccional2.position.set(-1, 1, -1);
-
-        scene.add(luzAmbiental);
-        scene.add(luzDireccional);
-        scene.add(luzDireccional2);
-
-        grid = new THREE.GridHelper(50, 10, 0x000000, 0x000000);
-        grid.position.y = -1;
-        scene.add(grid);
-
-        mouse = new THREE.Vector2();
-        raycaster = new THREE.Raycaster();
-
-        //Le indicamos a ThreeJS donde queremos el canvas.
-        $("#scene-section").append(renderer.domElement);
-
-
-        //Eventos del teclado.
-        document.addEventListener('keydown', onKeyDown);
-        document.addEventListener('keyup', onKeyUp);
-
-        //Evitar que la pagina haga scroll con la flechas.
-        window.addEventListener("keydown", function (e) {
-            if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
-                e.preventDefault();
+        if(Iniciar == false)
+        {
+            var tamañoDelCanvas = {
+                width: window.innerWidth/1.5,
+                height: window.innerHeight/1.5
             }
-        }, false);
-        //document.addEventListener('mousemove', onDocumentMouseMove,false)
-
-        loader = new FBXLoader()
-
-        
-
-        //----------------- POSICION DE LA CAMARA POR NIVEL -------------------------//
-        
-        camPosPerLevel.push(new THREE.Vector3(0,9,7));
-        camPosPerLevel.push(new THREE.Vector3(0,9,42));
-        camPosPerLevel.push(new THREE.Vector3(0,9,89));
-
-
-        //----------------- SPAWNS LEVEL 01 -------------------------//
-        
-        spawns = [
-            [
-                new THREE.Vector3(0,0,20.3),
-                new THREE.Vector3(-2.5,0,8.3),
-                new THREE.Vector3(2.5,0,13.3)
-            ],
-            [
-                new THREE.Vector3(4,0,67),
-                new THREE.Vector3(1.5,0,65),
-                new THREE.Vector3(-2.81,0,64)
-            ],
-            [
-                new THREE.Vector3(3.9,0,119),
-                new THREE.Vector3(1.7,0,116),
-                new THREE.Vector3(-3.4,0,113)
-            ]
-        ];
-
-
-        barriersPos = [
-                new THREE.Vector3(2.8,0,0),
-                new THREE.Vector3(0,0,0),
-                new THREE.Vector3(-2.8,0,0),
+            //Inicializamos el renderer
+            renderer = new THREE.WebGLRenderer();
+            renderer.setSize(tamañoDelCanvas.width, tamañoDelCanvas.height);
+            renderer.setClearColor(new THREE.Color(0.7, 0.7, 1));
+    
+            //Inicializamos la camara
+            var tarjet = new THREE.Vector3(0,-5,5);
+            camera = new THREE.PerspectiveCamera(
+                75, //Field Of View.
+                tamañoDelCanvas.width / tamañoDelCanvas.height, //Relacion de aspecto.
+                0.1, //Near - Que tan cerca debe estar un objeto para ser dibujado.
+                1000 //Far - Que tan lejos puede estar un objeto para ser dibujado.
+            );
+            camera.position.x = 0;
+            camera.position.y = 2;
+            camera.position.z = -13;
+            camera.lookAt(tarjet);
+    
+            //Inicializamos la escena
+            scene = new THREE.Scene();
+    
+            // Load the Orbitcontroller
+            /*var controls = new OrbitControls( camera, renderer.domElement ); 
+            controls.target.set( 0, 10, 0 );
+            controls.update();*/
+    
+    
+            //------ILUMINACION------//
+            var luzAmbiental = new THREE.AmbientLight(
+                new THREE.Color(1, 1, 1),
+                0.45 //Intensidad
+            );
+            luzAmbiental.name = "amb";
+    
+            var luzDireccional = new THREE.DirectionalLight(
+                new THREE.Color(0.7, 0.5, 0.5),
+                0.4 //Intensidad
+            );
+            luzDireccional.name = "dir";
+            luzDireccional.position.set(1, 1, 0);
+    
+            var luzDireccional2 = new THREE.DirectionalLight(
+                new THREE.Color(0.2, 0.2, 0.4),
+                0.3 //Intensidad
+            );
+            luzDireccional2.name = "dir2";
+            luzDireccional2.position.set(-1, 1, -1);
+    
+            scene.add(luzAmbiental);
+            scene.add(luzDireccional);
+            scene.add(luzDireccional2);
+    
+            grid = new THREE.GridHelper(50, 10, 0x000000, 0x000000);
+            grid.position.y = -1;
+            scene.add(grid);
+    
+            mouse = new THREE.Vector2();
+            raycaster = new THREE.Raycaster();
+    
+            //Le indicamos a ThreeJS donde queremos el canvas.
+            $("#scene-section").append(renderer.domElement);
+    
+    
+            //Eventos del teclado.
+            document.addEventListener('keydown', onKeyDown);
+            document.addEventListener('keyup', onKeyUp);
+    
+            //Evitar que la pagina haga scroll con la flechas.
+            window.addEventListener("keydown", function (e) {
+                if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(e.code) > -1) {
+                    e.preventDefault();
+                }
+            }, false);
+            //document.addEventListener('mousemove', onDocumentMouseMove,false)
+    
+            loader = new FBXLoader()
+    
             
-                new THREE.Vector3(-0.89,0,50.3),
-                new THREE.Vector3(4.1,0,50.3),
-                new THREE.Vector3(1.5,0,50.3),
-
-                new THREE.Vector3(4.2,0,95.6),
-                new THREE.Vector3(-1.09,0,95.6),
-                new THREE.Vector3(1.5,0,95.6)
-        ];
-
-        /*spawns.push(new THREE.Vector3(0,0,20.3));
-        spawns.push(new THREE.Vector3(-2.5,0,8.3));
-        spawns.push(new THREE.Vector3(2.5,0,13.3));*/
-
-        //----------------- ZOMBIES -------------------------//
-        for (let i = 0; i < 5; i++) {
-            numberOfObjects++;
-            zombiesClass.push (new Zombie());
-            load('/zOMG/Assets/Zombie/zombie.fbx', zombiesClass[i], zombiesClass[i].anim, () => {
-                zombiesClass[i].object.position.z = 4;
-                //zombie.updateBBox(5, 0);
-                zombiesClass[i].object.name="zombie";
-                zombiesClass[i].initializeValues(scene);
-                zombiesClass[i].object.die()
-                objectsLoaded++;
-
-                loading.attr('value', objectsLoaded);
-
-            });     
-        }
-        
-        
-        //----------------- PLAYERS -------------------------//
-        if( $('#scene-section').hasClass('Solo-Mode') ){
-            let player = new Player(0);          
-            numberOfObjects++;
-            load('/zOMG/Assets/Player/playerAnim.fbx', player, player.anim, ()=>{
-                //player.object.life = player.life;
-                player.object.name = "player";
-                player.object.position.z = -3;
-                player.initializeValues(scene);
-
-                players.push(player);
-        
-                objectsLoaded++;
-
-                loading.attr('value', objectsLoaded);
-            });
-
-            game = new Game(1);
-        }
-        else if( $('#scene-section').hasClass('Multi-Mode') ){
-
-            for (let i = 0; i < 2; i++) {
-                let player = new Player(i);          
+    
+            //----------------- POSICION DE LA CAMARA POR NIVEL -------------------------//
+            
+            camPosPerLevel.push(new THREE.Vector3(0,9,7));
+            camPosPerLevel.push(new THREE.Vector3(0,9,42));
+            camPosPerLevel.push(new THREE.Vector3(0,9,89));
+    
+    
+            //----------------- SPAWNS LEVEL 01 -------------------------//
+            
+            spawns = [
+                [
+                    new THREE.Vector3(0,0,20.3),
+                    new THREE.Vector3(-2.5,0,8.3),
+                    new THREE.Vector3(2.5,0,13.3)
+                ],
+                [
+                    new THREE.Vector3(4,0,67),
+                    new THREE.Vector3(1.5,0,65),
+                    new THREE.Vector3(-2.81,0,64)
+                ],
+                [
+                    new THREE.Vector3(3.9,0,119),
+                    new THREE.Vector3(1.7,0,116),
+                    new THREE.Vector3(-3.4,0,113)
+                ]
+            ];
+    
+    
+            barriersPos = [
+                    new THREE.Vector3(2.8,0,0),
+                    new THREE.Vector3(0,0,0),
+                    new THREE.Vector3(-2.8,0,0),
+                
+                    new THREE.Vector3(-0.89,0,50.3),
+                    new THREE.Vector3(4.1,0,50.3),
+                    new THREE.Vector3(1.5,0,50.3),
+    
+                    new THREE.Vector3(4.2,0,95.6),
+                    new THREE.Vector3(-1.09,0,95.6),
+                    new THREE.Vector3(1.5,0,95.6)
+            ];
+    
+            /*spawns.push(new THREE.Vector3(0,0,20.3));
+            spawns.push(new THREE.Vector3(-2.5,0,8.3));
+            spawns.push(new THREE.Vector3(2.5,0,13.3));*/
+    
+            //----------------- ZOMBIES -------------------------//
+            for (let i = 0; i < 5; i++) {
+                numberOfObjects++;
+                zombiesClass.push (new Zombie());
+                load('/zOMG/Assets/Zombie/zombie.fbx', zombiesClass[i], zombiesClass[i].anim, () => {
+                    zombiesClass[i].object.position.z = 4;
+                    //zombie.updateBBox(5, 0);
+                    zombiesClass[i].object.name="zombie";
+                    zombiesClass[i].initializeValues(scene);
+                    zombiesClass[i].object.die()
+                    objectsLoaded++;
+    
+                    loading.attr('value', objectsLoaded);
+    
+                });     
+            }
+            
+            
+            //----------------- PLAYERS -------------------------//
+            if( $('#scene-section').hasClass('Solo-Mode') ){
+                let player = new Player(0);          
                 numberOfObjects++;
                 load('/zOMG/Assets/Player/playerAnim.fbx', player, player.anim, ()=>{
                     //player.object.life = player.life;
                     player.object.name = "player";
                     player.object.position.z = -3;
                     player.initializeValues(scene);
+    
                     players.push(player);
-                    
             
                     objectsLoaded++;
-
+    
                     loading.attr('value', objectsLoaded);
                 });
+    
+                game = new Game(1);
             }
-
-            game = new Game(2);
-        }
-
-        numberOfObjects++;
-        barriers[0] = new Barrier();
-        load('/zOMG/Assets/Barrier/newBarrier.fbx', barriers[0], null, () => {
-            barriers[0].object.position.set(
-                barriersPos[0].x,
-                barriersPos[0].y,
-                barriersPos[0].z
-            );  
-            barriers[0].updateBBox();
-            barriers[0].object.name = "barrier";
-            barriers[0].initializeValues(scene);
-            barriers[0].object.scale.x=.004
-            barriers[0].object.scale.z=.004
-            barriers[0].object.scale.y=.004
-            barriers[0].object.rotation.y = 90 * Math.PI / 180;
-
-
-            for (let i = 1; i < 9; i++) {
-                barriers[i] = new Barrier();
-                barriers[i].object = barriers[0].object.clone();
-                barriers[i].object.BBox = new THREE.Box3();
-                barriers[i].object.position.set(
-                    barriersPos[i].x,
-                    barriersPos[i].y,
-                    barriersPos[i].z
+            else if( $('#scene-section').hasClass('Multi-Mode') ){
+    
+                for (let i = 0; i < 2; i++) {
+                    let player = new Player(i);          
+                    numberOfObjects++;
+                    load('/zOMG/Assets/Player/playerAnim.fbx', player, player.anim, ()=>{
+                        //player.object.life = player.life;
+                        player.object.name = "player";
+                        player.object.position.z = -3;
+                        player.initializeValues(scene);
+                        players.push(player);
+                        
+                
+                        objectsLoaded++;
+    
+                        loading.attr('value', objectsLoaded);
+                    });
+                }
+    
+                game = new Game(2);
+            }
+    
+            numberOfObjects++;
+            barriers[0] = new Barrier();
+            load('/zOMG/Assets/Barrier/newBarrier.fbx', barriers[0], null, () => {
+                barriers[0].object.position.set(
+                    barriersPos[0].x,
+                    barriersPos[0].y,
+                    barriersPos[0].z
                 );  
-                barriers[i].updateBBox();
-                barriers[i].initializeValues(scene);
-                scene.add(barriers[i].object); 
-            }
-
-
-
-
-            objectsLoaded++;
-
-            loading.attr('value', objectsLoaded);
-        });
-
-        /*numberOfObjects++;
-        escenario = new Escenario();
-        load('/zOMG/Assets/Escenario/newStage2.fbx', escenario, null, () => {
-            escenario.object.position.x = 1
-            escenario.object.position.z = 40
-            escenario.object.scale.x=.004
-            escenario.object.scale.z=.004
-            escenario.object.scale.y=.004
-            objectsLoaded++;
-
-            loading.attr('value', objectsLoaded);
-        });*/
-
-        loading.attr('max', numberOfObjects);
+                barriers[0].updateBBox();
+                barriers[0].object.name = "barrier";
+                barriers[0].initializeValues(scene);
+                barriers[0].object.scale.x=.004
+                barriers[0].object.scale.z=.004
+                barriers[0].object.scale.y=.004
+                barriers[0].object.rotation.y = 90 * Math.PI / 180;
+    
+    
+                for (let i = 1; i < 9; i++) {
+                    barriers[i] = new Barrier();
+                    barriers[i].object = barriers[0].object.clone();
+                    barriers[i].object.BBox = new THREE.Box3();
+                    barriers[i].object.position.set(
+                        barriersPos[i].x,
+                        barriersPos[i].y,
+                        barriersPos[i].z
+                    );  
+                    barriers[i].updateBBox();
+                    barriers[i].initializeValues(scene);
+                    scene.add(barriers[i].object); 
+                }
+    
+    
+    
+    
+                objectsLoaded++;
+    
+                loading.attr('value', objectsLoaded);
+            });
+    
+            numberOfObjects++;
+            escenario = new Escenario();
+            load('/zOMG/Assets/Escenario/newStage2.fbx', escenario, null, () => {
+                escenario.object.position.x = 1
+                escenario.object.position.z = 40
+                escenario.object.scale.x=.004
+                escenario.object.scale.z=.004
+                escenario.object.scale.y=.004
+                objectsLoaded++;
+    
+                loading.attr('value', objectsLoaded);
+            });
+    
+            
+            loading.attr('max', numberOfObjects);
+    
+            Iniciar = true;
+        }
+        
+      
         render();
-
+ 
         
     }
+
 }
 
 $(document).ready(function () {
 
     $('#scene-section').on('visible', loadGame);
     loading = $('#loading');
+
+    $("#HealthPU").click(function()
+    {
+        HPU=true;
+    })
+
+    $("#DamagePU").click(function()
+    {
+        DPU=true;
+    })
+    
+
 
 })
 
@@ -328,14 +352,21 @@ function removeBarriersOfLevel(level){
 
 function render() {
 
-    if (keys["T"]) {
+    if (HPU) {
         if(players[0].useScore(700)){
             reviveAllDeath();
         }
+        HPU = false;
 
-    } else if (keys["G"]) {
+    } else 
+    if (DPU) {
         if(players[0].useScore(200))
+        {
             players[0].incGunDmg();
+        }
+
+        DPU = false;
+            
     }
     if (keys["Y"]) {
         removeBarriersOfLevel(1 - 1 );
@@ -442,6 +473,15 @@ function render() {
                     }
                 }
 
+                if(players[0].object.position.x > 3)
+                {
+                    players[0].object.position.x = 3;
+                }
+                if(players[0].object.position.x < -3)
+                {
+                    players[0].object.position.x = -3;
+                }
+
                 renderer.render(scene, camera);
             }
             
@@ -455,6 +495,8 @@ function render() {
         } 
         
     }
+
+    console.log(players[0].object.position.z)
 
 }
 

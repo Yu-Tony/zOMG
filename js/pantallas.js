@@ -5,8 +5,6 @@ $.getScript('/zOMG/js/facebook.js').done(function(){
 });
 
 
-
-
 $(document).ready(function () {
 
 
@@ -157,6 +155,8 @@ function ShowConfigGame()
     
 
 }
+
+
 
 /*function ShowGameOver()
 {
